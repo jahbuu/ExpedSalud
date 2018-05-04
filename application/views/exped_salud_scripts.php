@@ -52,7 +52,7 @@
                     $mysel.select2({
                         placeholder:'Srchng fr',
                         ajax: {
-                            url:'<?= $path;?>/index.php/Master/getDirectory',
+                            url:'<?= $path;?>index.php/Master/getDirectory',
                             type:'POST',
                             dataType:'json',
                             delay:250,
