@@ -12,7 +12,22 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 
 #codeigniter 3
 application/logs/*
-ci_session/
+ci_session/*.txt
 !application/logs/index.html
 !application/logs/.htaccess
 /vendor/
+ci_sessions/Nuevo documento de texto.txt
+
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
