@@ -18,39 +18,32 @@
             <script src="<?= $path ?>js/select2.min.js"></script>
             <script src="<?= $path ?>js/colorpicker.js"></script>
             <script src="<?= $path ?>js/dropzone.min.js"></script>
-            <script src="<?= $path ?>js/jquery.dataTables.min.js"></script>
-            
-
+            <script src="<?= $path ?>js/jquery.dataTables.min.js"></script>        
             <script src="<?= $path ?>js/custom.js"></script>
-                <script>
-                jQuery(document).ready(function() {                            
-                    init_calendar();
-                });    /* initialize the external events */  
-                    
-                
-               
-                
-           
 
-                $("ui-datepicker").attr('z-index', '10000 !important');
+
+            <script>
+                //Ready functions
+                jQuery(document).ready(function() {                            
+                    // Since the calendar is the deafult view; Initialize it
+                    init_calendar();
+                });
+                   
+
+
             </script>
             <script>
+                //Calendar functions
 
-                //Views function
-                function init_agenda(){
 
-                }
-                function update_pagination(side){
-
-                    
-                    //ajax to getPaginationTabs
-
-                }
-                function init_directorio(side = 0){                    
-                    // Select2                    
+            </script>
+            <script>
+                //Directory functions
+                function initDirectory(side = 0){                    
+                    //Get the html element
                     var $mysel = $("#search-type");
-                    $mysel.select2({
-                        placeholder:'Srchng fr',
+                    //Initialize the html element with selec2 library
+                    $mysel.select2({                        
                         ajax: {
                             url:'<?= $path;?>index.php/Master/getDirectory',
                             type:'POST',
@@ -74,23 +67,65 @@
                             cache:true
                         },                    
                     });
-
                                                         
                     $mysel.change(function() {
                       go_to_perfil(this.value);
-                    });
-
-                    
-                    
-                    
+                    });       
                 }
+
+            </script>
+            <script>
+                //Profile functions
+
+
+            </script>
+            <script>
+                //Forms functions
+
+
+            </script>
+            <script>
+                //Navigation functions
+
+
+            </script>
+            <script>
+                //Overall functions
+
+                //Select2 initialization template
+                function initSelec2(element_id, list_id, data_function, result_function){
+                    //
+
+                }
+                //AjaxRequest template
+                function ajaxRequest( type = '', url = '', async = '', data = '', success = '', error = '', dataType = '' ){
+                    $.ajax({
+                        type: type,
+                        url: url,
+                        async: async,
+                        dataType:dataType,                    
+                        data: data,
+                        success: success,
+                        error: error
+                    });
+                }
+
+
+            </script>
+
+
+            <script>
+
+           
+        
+              
 
                 function btn_pagination_refresh(side = 0){
 
                 }
 
                 function refresh_directorio(side = 0){
-                        ajax_request( 
+                        ajaxRequest( 
                             'POST', 
                             '<?= $path . "index.php/Master/refreshDirectory" ; ?>',
                             'false',  
@@ -141,8 +176,8 @@
                                     center: 'title',
                                     right: 'month,agendaWeek,agendaDay'
                             },
-                            editable: true,
-                            droppable: true, // this allows things to be dropped onto the calendar !!!
+                            editable: false,
+                            droppable: false, // this allows things to be dropped onto the calendar !!!
                             drop: function(date, allDay) { // this function is called when something is dropped                                  
                                 // retrieve the dropped element's stored Event Object
                                 var originalEventObject = jQuery(this).data('eventObject');
@@ -165,19 +200,14 @@
                                 }
                             },
                             eventClick: function(calEvent, jsEvent, view) {
-                                //alert('Event: ' + calEvent.title);
-                                //alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-                                //alert('View: ' + view.name);
-                                // change the border color just for fun
-                                $(this).css('border-color', 'red');
-                                $(this).css('addClass', 'modal');                                
-                                //$('.contentpanel0').css("display", "inherit");                                
-                                $('.myModal').modal( {
-                                        escapeClose: true,
-                                        clickClose: false,
-                                        showClose: false
-                                });
-                            }
+                                console.log('Event: ' + calEvent.title);                                
+                                
+                            },
+                            events: '<?= $path . "index.php/Ccalendar/getEvents";?>',
+                             eventClick: function(event, element) {
+                                event.title = "CLICKED!";
+                                $('#calendar').fullCalendar('updateEvent', event);
+                              }
                         }
                     ); 
                     // Tags Input
@@ -254,7 +284,31 @@
                         onChange: function (hsb, hex, rgb) {
                             jQuery('#colorpicker3').val('#'+hex);
                         }
-                    });                   
+                    });     
+
+                     var $mysel = $("#add-event-select2");
+                    $mysel.select2({    
+                        placeholder:'Srchng fr',
+                        ajax: {
+                            url:'<?= $path;?>index.php/Master/getDirectory',
+                            type:'POST',
+                            dataType:'json',
+                            delay:250,
+                            data: function(params){
+                                //alert(JSON.stringify(params));
+                                return {
+                                    q: params,                                    
+                                    page :  params.page || 1
+                                };                            
+                            },
+                            results: function (data, params) {                                                       
+                                return {
+                                    results: data.results
+                                };
+                            },
+                            cache:true
+                        }                
+                    });              
                 }
 
                 function init_data_tables(){
@@ -407,7 +461,7 @@
                                   
                         };
                         var error = function(){};
-                        ajax_request(type, url, async, data, success, error);                        
+                        ajaxRequest(type, url, async, data, success, error);                        
                     }
                     //Inicializar las libs
                     function init_problemas_toolkit(){                        
@@ -469,7 +523,7 @@
                     }
                     function backto(){
                         var data = '';
-                        ajax_request( 
+                        ajaxRequest( 
                             'POST', 
                             '<?= $path . "index.php/Master/getHistory" ; ?>',
                             'false',  
@@ -552,7 +606,7 @@
                                 
                             };                
                         var error = function(){};
-                        ajax_request(type, url, async, data, success, error);                  
+                        ajaxRequest(type, url, async, data, success, error);                  
 
                         return false;
                         
@@ -572,7 +626,7 @@
                                 }, 300);                       
                             };
                         var error = function(){};
-                        ajax_request(type, url, async, data, success, error);
+                        ajaxRequest(type, url, async, data, success, error);
 
                         return false;   
                     }
@@ -676,10 +730,10 @@
                         }, 300);
                     };
                     var error = function(){};
-                    ajax_request(type, url, async, data, success, error);
+                    ajaxRequest(type, url, async, data, success, error);
                 }
 
-                function go_to_directorio(){
+                function go_to_directorio(){                    
                     var type = "POST";
                     
                     var url = "<?php echo $path . "index.php/Master/directorio/". $this->session->userdata('userdata')['id'] . ""; ?>";
@@ -687,18 +741,12 @@
                     var data = [];
                     var success = function(data){
                         set_content_body(data);
-                        setTimeout(function(){                        
-                            
-                            init_directorio();
-                            $('#search-type').on("select2:selecting", function(e) {         
-                                            console.log( $(this).val() );
-                                            console.log( '$$$$$$' );
-                    });
+                        setTimeout(function(){                                                    
+                            initDirectory();                           
                         }, 300);
-                    };
+                    }
                     var error = function(){};
-                    ajax_request(type, url, async, data, success, error);
-
+                    ajaxRequest(type, url, async, data, success, error);
                 }
 
                 function go_to_agenda(){
@@ -714,21 +762,11 @@
                         }, 300);
                     };
                     var error = function(){};
-                    ajax_request(type, url, async, data, success, error);
+                    ajaxRequest(type, url, async, data, success, error);
 
                 }
 
-                function ajax_request( type, url, async, data, success, error, dataType = '' ){
-                    $.ajax({
-                        type: type,
-                        url: url,
-                        async: async,
-                        dataType:dataType,                    
-                        data: data,
-                        success: success,
-                        error: error
-                    });
-                }
+                
        </script>>
     </body>
 </html>

@@ -13,9 +13,9 @@
         <div class="header-right">            
             <div class="pull-right">                                                
                 <div class="btn-group btn-group-list btn-group-notification">
-                    <button   data-toggle="modal" data-target=".bs-example-modal-tabs" class="btn btn-dark btn-sm mr5"  >
-                      <i class="fa fa-book"></i>                              
-                    </button>                    
+                                        
+
+                    <a href="#" class="btn btn-dark btn-sm mr5" data-toggle="modal" data-target=".panel-newevents"><i class="fa fa-book"></i></a>
                 </div><!-- btn-group -->
                 <!-- mensajes notificaciones alertas campana-->
                 <!--div class="btn-group btn-group-list btn-group-notification">

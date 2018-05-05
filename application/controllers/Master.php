@@ -17,10 +17,10 @@ class Master extends CI_Controller {
 		$this->load->helper('form');
 
 		//Load libraries
-		$this->load->library('session');
+		//$this->load->library('session');
 
 		//Load models
-		$this->load->model('Master_model');
+		$this->load->model('Master_model', '', TRUE);
 
 		//Attributes
 		$this->path = base_url();	
