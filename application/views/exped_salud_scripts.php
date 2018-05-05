@@ -85,18 +85,26 @@
                     
                 }
 
+                function btn_pagination_refresh(side = 0){
+
+                }
+
                 function refresh_directorio(side = 0){
                         ajax_request( 
                             'POST', 
-                            '<?= $path . "index.php/Master/getHistory" ; ?>',
+                            '<?= $path . "index.php/Master/refreshDirectory" ; ?>',
                             'false',  
-                            data,                  
+                            {'side' : side, orderby:'', tpages:$('li.pagination-pages').html(), current_page:$('li.active a').html()},                  
                             function(data){                        
-                                $("#historial").html(data);                                   
+                                $(".all-contacts-div").html(data.directory);                                   
+                                $(".pagination-menu-div").html(data.pagination);                                   
+                                
                             },
                             function(){
                                 //alert("error");
-                        });
+                            },
+                            'json'
+                        );
 
                 }
 
@@ -710,12 +718,12 @@
 
                 }
 
-                function ajax_request( type, url, async, data, success, error ){
+                function ajax_request( type, url, async, data, success, error, dataType = '' ){
                     $.ajax({
                         type: type,
                         url: url,
                         async: async,
-                        //dataType:'json',                    
+                        dataType:dataType,                    
                         data: data,
                         success: success,
                         error: error

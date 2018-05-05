@@ -18,67 +18,37 @@
 <div class="contentpanel">
     
     <div class="row">
-        <div class="col-sm-3">                                
+        <?php if( sizeof($rcnt_results) <= 0 ){ ?>
+            <div class="col-sm-0">  
+        <?php }else{ ?>
+            <div class="col-sm-3">
+        <?php } ?>
+
             <h5 class="md-title">Reciente</h5>
             <div class="list-group people-group">
-				<a href="#" class="list-group-item">
-                    <div class="media">
-                        <div class="pull-left">
-                            <img class="img-circle img-offline" src="<?= $path ?>images/photos/user4.png" alt="...">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Nusja Nawancali</h4>
-                            <small>Software Engineer</small>
-                        </div>
-                    </div><!-- media -->
-                </a><!-- list-group -->
-                <a href="#" class="list-group-item">
-                    <div class="media">
-                        <div class="pull-left">
-                            <img class="img-circle img-offline" src="<?= $path ?>images/photos/user2.png" alt="...">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Renov Leonga</h4>
-                            <small>Software Engineer</small>
-                        </div>
-                    </div><!-- media -->
-                </a><!-- list-group -->
-                <a href="#" class="list-group-item">
-                    <div class="media">
-                        <div class="pull-left">
-                            <img class="img-circle img-offline" src="<?= $path ?>images/photos/user3.png" alt="...">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Zaham Sindilmaca</h4>
-                            <small>Software Engineer</small>
-                        </div>
-                    </div><!-- media -->
-                </a><!-- list-group -->
-                <a href="#" class="list-group-item">
-                    <div class="media">
-                        <div class="pull-left">
-                            <img class="img-circle img-offline" src="<?= $path ?>images/photos/user4.png" alt="...">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Nusja Nawancali</h4>
-                            <small>Software Engineer</small>
-                        </div>
-                    </div><!-- media -->
-                </a><!-- list-group -->
-				<a href="#" class="list-group-item">
-                    <div class="media">
-                        <div class="pull-left">
-                            <img class="img-circle img-offline" src="<?= $path ?>images/photos/user4.png" alt="...">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Nusja Nawancali</h4>
-                            <small>Software Engineer</small>
-                        </div>
-                    </div><!-- media -->
-                </a><!-- list-group -->
+                <?php if( sizeof($rcnt_results) >= 1){
+                        foreach (array_reverse($rcnt_results) as $recents) {
+                            echo '<a href="#" class="list-group-item">';
+                                echo'<div class="media">';
+                                    echo'<div class="pull-left">';
+                                        echo'<img class="img-circle img-offline" src="'.$this->session->userdata('path').'images/photos/user4.png" alt="...">';
+                                    echo'</div>';
+                                    echo'<div class="media-body">';
+                                        echo'<h4 class="media-heading">'.$recents['apellido'].', '. $recents['nombre'] . '</h4>';
+                                        echo'<small>ID:'.$recents['cedula'] .'</small>';
+                                    echo'</div>';
+                                echo'</div><!-- media -->';
+                            echo'</a><!-- list-group -->';
+                        } 
+                    }?>
+				
             </div><!-- list-group -->            
         </div><!-- col-sm-3 -->
-        <div class="col-sm-9">
+        <?php if( sizeof($rcnt_results) <= 0 ){ ?>
+            <div class="col-sm-12">  
+        <?php }else{ ?>
+            <div class="col-sm-9">
+        <?php } ?>
             
             <div class="well mt10">
                 <div class="row">
@@ -100,25 +70,25 @@
             
             <br />
             
-            <div class="pull-right">
+            <div class="pull-right pagination-menu-div">
                 <ul class="directory-pagination pagination pagination-split pagination-sm pagination-contact">
                     <li class="disabled btn-pagination-back"><a href="#"><i class="fa fa-angle-left"></i></a></li>
-                    <li class="active"><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>                    
-                    <li class="disabled btn-pagination-next"><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                    <li class="active"><a href="javascript:refresh_directorio(1);">1</a></li>
+                    <?php for ($i=2; $i <= $pages ; $i++) { 
+                        echo '<li><a href="javascript:refresh_directorio('.$i.');">'.$i.'</a></li>';
+                    } ?>                    
+                    <li class="btn-pagination-next"><a href="javascript:refresh_directorio(-1);"><i class="fa fa-angle-right"></i></a></li>
                     <li class="hidden pagination-pages"><?= $pages; ?></li>
                 </ul>
             </div>
             <h3 class="xlg-title">All Contacts</h3>
             
-            <div class="list-group contact-group">
+            <div class="list-group contact-group all-contacts-div">
 
                 <?php
+                    $count=0;
                     foreach ($drtr_results as $result) {
-                        # code...
+                        if($count==5) break;
                     ?>    
                         <a href="#" onclick="go_to_perfil(<?= $result->id ?>);" class="list-group-item">
                             <div class="media">
@@ -138,7 +108,7 @@
                                 </div>
                             </div><!-- media -->
                         </a><!-- list-group -->
-                    <?php }
+                    <?php $count++;}
                 ?>
             </div><!-- list-group -->
         </div><!-- col-sm-9 -->

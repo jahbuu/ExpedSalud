@@ -174,7 +174,7 @@ class Master_model extends CI_Model{
 			'personas.role' => 'pac'
 		);
 
-		$select = ' *, concat(personas.nombre, " ", personas.apellido) as text ';
+		$select = ' *, concat(personas.apellido, ", ", personas.nombre) as text ';
 		$from = ' FROM personas ';
 		$where = ' role = "pac" ';
 
@@ -183,7 +183,7 @@ class Master_model extends CI_Model{
 			$where .= ' and ( nombre like "%'.$q.'%" OR apellido like  "%'.$q.'%" or apellido_2 like  "%'.$q.'%"  ) ';
 		}		
 
-		$order_by = ' nombre ASC ';
+		//$order_by = ' personas.apellido, personas.apellido_2, personas.nombre DESC ';
         
 		//$sql = $select . $from . $where . $order_by;
 
@@ -195,7 +195,7 @@ class Master_model extends CI_Model{
 		$this->db->select($select);
 		$this->db->from('personas');
 		$this->db->where( $where );
-		$this->db->order_by($order_by);
+		$this->db->order_by('personas.apellido', 'desc');
 		
 		$query = $this->db->get();
 		//print_r($query);
@@ -250,7 +250,7 @@ class Master_model extends CI_Model{
 		return $result		;
 	}
 
-	function getDirectory(){
+	function getDirectory($init=0){
 		$this->db->select('*, personas.nombre as pnombre, ocupacion.nombre as ocupacion, directorio_telefonico.numero as telefono, empresas.nombre as empresa, role');
 		$this->db->from('personas');
 		$this->db->join('ocupacion', 'ocupacion.id_persona = personas.id', 'inner');
@@ -265,11 +265,15 @@ class Master_model extends CI_Model{
 		);
 		$this->db->where( $where );
         
-		$this->db->order_by("personas.apellido", "ASC");
+		$this->db->order_by("personas.apellido, personas.apellido_2, pnombre", "DESC");
 
-		$this->db->limit(5);
+		if($init!=0){
+			$this->db->limit(5, ($init - 1) * 5);	
+		}
+		
 
-		$query = $this->db->get();		
+		$query = $this->db->get();	
+		// echo $query->num_rows();die;	
 		return $this->getQueryResultsOnArray($query);					
 	}
 
@@ -789,13 +793,15 @@ class Master_model extends CI_Model{
 		
 	}
 
-	function getPaginationTabs($current_page, $side, $tapges){
+	function getPaginationTabs($current_page, $side, $tpages){
+
 		$actual_page = $current_page;
         $prev_page = $actual_page - 1;
         $next_page = $actual_page + 1;                    
         $alas_page = -1;                    
-        if ( is_integer($side) == true ){
-            $direct_page  = side;
+        if ( is_integer(intval($side)) == true ){
+        	
+            $direct_page  = $side;
         }else{
             $direct_page  = -1;
         }
@@ -804,31 +810,35 @@ class Master_model extends CI_Model{
 
 
 
-
-        $pagination_tabs_prev_btn = '<li class="btn-pagination-back"><a href="#"><i class="fa fa-angle-left"></i></a></li>';
-        $pagination_tabs_next_btn = '<li class="btn-pagination-next"><a href="#"><i class="fa fa-angle-right"></i></a></li>';
+        $pagination_wrapper ='<ul class="directory-pagination pagination pagination-split pagination-sm pagination-contact">';
+        $pagination_wrapper_closing ='</ul>';
+        $pagination_tabs_prev_btn = '<li class="btn-pagination-back"><a href="javascript:refresh_directorio(\'-2\');"><i class="fa fa-angle-left"></i></a></li>';
+        $pagination_tabs_next_btn = '<li class="btn-pagination-next"><a href="javascript:refresh_directorio(-1);"><i class="fa fa-angle-right"></i></a></li>';
         $pagination_tabs_pages = '<li class="hidden pagination-pages">'.$tpages.'</li>';
 
 
-        switch($side){
-            case 'p':
+
+        switch(intval($side)){
+            case -2:
                 if($prev_page <= 1){
                   	$pagination_tabs_prev_btn = '<li class="disabled btn-pagination-back"><a href="#"><i class="fa fa-angle-left"></i></a></li>';
                 }
                 $new_page = $prev_page;            
+                
             break;
 
-            case 'n':
+            case -1:
             if( $next_page >= $tpages){
             	$pagination_tabs_next_btn = '<li class="disabled btn-pagination-next"><a href="#"><i class="fa fa-angle-right"></i></a></li>';
                 }
                 $new_page = $next_page;                           
+                
             break;
             default:
             	$new_page = $direct_page;
+            	
             break;
         }
-
 
         if( $tpages > 5){
         	switch($new_page){
@@ -855,7 +865,7 @@ class Master_model extends CI_Model{
         	}
         }else{
         	$i = 1;
-        	$t_tabpages = 5;
+        	$t_tabpages = $tpages;
         }
 
         
@@ -865,9 +875,97 @@ class Master_model extends CI_Model{
     			if( $i == $new_page ){
     				$pagination_tabs_content .= 'active';
     			}
-    			$pagination_tabs_content .= '"><a href="#">'.$i.'</a></li>';
+    			$pagination_tabs_content .= '"><a href="javascript:refresh_directorio(\''.$i.'\');">'.$i.'</a></li>';
 			}
+
+			$pagination_hidden_val = '<li class="hidden pagination-pages">'.$tpages.'</li>';
+			return $pagination_wrapper . $pagination_tabs_prev_btn . $pagination_tabs_content . $pagination_tabs_next_btn . $pagination_hidden_val . $pagination_wrapper_closing;
 	}
+
+	function getRefreshDirectory($data){
+		$directory_html = '';
+		//print_r($data);die;
+		foreach ($data['drtr_results'] as $result){
+		 	$directory_html .= '<a href="#" onclick="go_to_perfil('. $result->id .');" class="list-group-item">';
+                            $directory_html .='<div class="media">';
+                                $directory_html .='<div class="pull-left">';
+                                    $directory_html .='<img class="img-circle img-online" src="'. $this->session->userdata('path') . 'images/photos/user1.png" alt="...">';
+                                $directory_html .='</div>';
+                                $directory_html .='<div class="media-body">';
+                                    $directory_html .='<h4 class="media-heading">'.$result->apellido . ' ' . $result->apellido_2 . ', ' . $result->pnombre . '<small>'.$result->ocupacion.'</small></h4>';
+                                    $directory_html .='<div class="media-content">';
+                                        $directory_html .='<i class="fa fa-map-marker"></i> '. $result->direccion;
+                                        $directory_html .='<ul class="list-unstyled">';
+                                            $directory_html .='<li><i class="fa fa-skype"></i> '. $result->username.' </li>';
+                                            $directory_html .='<li><i class="fa fa-mobile"></i> '. $result->telefono.' </li>';
+                                            $directory_html .='<li><i class="fa fa-envelope-o"></i> '. $result->email.' </li>';
+                                        $directory_html .='</ul>';
+                                    $directory_html .='</div>';
+                                $directory_html .='</div>';
+                            $directory_html .='</div><!-- media -->';
+                        $directory_html .='</a><!-- list-group -->';
+		}
+		return $directory_html;
+	}
+
+	//directory
+	function addVisit(){
+		if ($this->db->insert('directory_recent_search', array(
+					'id_patient'=>$this->session->userdata('profile_data')['id'] ,
+					'id_user'=>$this->session->userdata('userdata')['id']					
+
+				))){ }		
+	}
+
+	function directoryRecentViews(){
+		$where = Array(
+			'directory_recent_search.id_user' => $this->session->userdata('userdata')['id']
+		);
+
+		$select = ' max(date) as 2date, nombre, apellido, apellido_2, cedula, p.id ';
+		$from = 'directory_recent_search';
+		$join = ' INNER JOIN personas ON drs.id_patient = p.id  ';
+		$where  = ' id_user = ' . $this->session->userdata('userdata')['id'] . ' ';
+
+		$this->db->select($select);
+		$this->db->from('directory_recent_search as drs');
+		$this->db->join('personas as p', 'drs.id_patient = p.id');
+		$this->db->where( $where );
+		$this->db->order_by('2date', 'desc');
+		$this->db->group_by('p.id');
+		$this->db->limit(5);
+		
+		$query = $this->db->get();
+
+		if( $query->num_rows() >= 1){
+			$results = $this->getQueryResultsOnArray($query);
+
+			foreach ($results as $res) {
+				$result[] = json_decode(json_encode($res), TRUE);
+			}
+
+			//$result['results'] = $result;	
+			return $result;
+		}
+		return array();
+		//This code refreshes the recent contacts on the directory
+		$html_recent_views = '';
+		foreach ($result['results'] as $res) {
+			$html_recent_views .= '<a href="#" class="list-group-item">';
+                    $html_recent_views .= '<div class="media">';
+                        $html_recent_views .= '<div class="pull-left">';
+                            $html_recent_views .= '<img class="img-circle img-offline" src="'.$this->session->userdata('path').'images/photos/user4.png" alt="...">';
+                        $html_recent_views .= '</div>';
+                        $html_recent_views .= '<div class="media-body">';
+                            $html_recent_views .= '<h4 class="media-heading">'.$result['apellido'] . ', ' . $result['nombre'] . '</h4>';
+                            $html_recent_views .= '<small>'.$result['cedula'].'</small>';
+                        $html_recent_views .= '</div>';
+                    $html_recent_views .= '</div><!-- media -->';
+                $html_recent_views .= '</a><!-- list-group -->';
+		}
+	}
+
+	
 }
 
 ?>

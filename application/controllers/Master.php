@@ -23,7 +23,8 @@ class Master extends CI_Controller {
 		$this->load->model('Master_model');
 
 		//Attributes
-		$this->path = base_url();		
+		$this->path = base_url();	
+		$this->session->set_userdata(array('path'=>base_url()));
 
 		//
 
@@ -119,6 +120,7 @@ class Master extends CI_Controller {
 	public function perfil(){
 		if( $this->uri->segment(3) !== null ){
 			$this->Master_model->setProfileData( $this->uri->segment(3) );	
+			$this->Master_model->addVisit();
 		}		
 		$this->load_my_view('perfil');
 				
@@ -171,21 +173,24 @@ class Master extends CI_Controller {
 			case 'directorio':			
 				$results['directory'] = $this->Master_model->getDirectory();
 				$pages = ceil(sizeof( $results['directory'] ) / 5);
+				$recent_directory = $this->Master_model->directoryRecentViews();
 				$data = array(		
 					'path' => $this->path,			
 					'drtr_results' => $results['directory'],
+					'rcnt_results' => $recent_directory,
 					'pages' => $pages
-				);
+				);				
 				# code...
 				break;
 			case 'directorio_results':			
 				$results['directory'] = $this->Master_model->getDirectoryJSON();
-				$pages = ceil(sizeof( $results['directory'] ) / 5);
+				$pages = ceil(sizeof( $results['directory'] ) / 5);				
 				$data = array(		
 					'path' => $this->path,			
-					'drtr_results' => $results['directory'],
+					'drtr_results' => $results['directory'],					
 					'pages' => $pages
 				);
+
 			break;
 			case 'perfil':																				
 				$pid_evnts = $this->Master_model->getUserEvents( $this->session->userdata('profile_data')['id'] );
@@ -355,6 +360,18 @@ class Master extends CI_Controller {
 	}
 
 	function refreshDirectory(){
+		$side = $this->input->post('side');
+		$orderby = $this->input->post('orderby');
+		$current_page = $this->input->post('current_page');
+		$tpages = $this->input->post('tpages');
+		// $result['directory'] = $this->Master_model->getDirectory($current_page);
+		// print_r($this->Master_model->getDirectory($current_page)); die;
+		$dataView['drtr_results'] = $this->Master_model->getDirectory($current_page);
+
+		//$result['directory'] = $this->load->view($this->results . 'directory', $dataView);
+		$result['pagination'] = $this->Master_model->getPaginationTabs($current_page, $side, $tpages);
+		$result['directory'] = $this->Master_model->getRefreshDirectory($dataView);
+		echo json_encode($result);
 		
 	}
 
