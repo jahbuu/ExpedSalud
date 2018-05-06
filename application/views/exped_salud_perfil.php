@@ -534,7 +534,7 @@
                     
                 </div>
                 <div class="panel-body">
-                    <button class="btn btn-default btn-bordered" onclick="form_confirmation(1, 'hc');">Cancelar</button>
+                    <button class="btn btn-default btn-bordered" onclick="$('.panel-hc').modal('hide');">Cancelar</button>
                     <button class="btn btn-primary btn-bordered" onclick="form_confirmation(2, 'hc');">Si</button>
                 </div>
             </div>

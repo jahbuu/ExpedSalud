@@ -28,7 +28,7 @@
             <div class="list-group people-group">
                 <?php if( sizeof($rcnt_results) >= 1){
                         foreach (array_reverse($rcnt_results) as $recents) {
-                            echo '<a href="#" class="list-group-item">';
+                            echo '<a href="javascript:goTo( \'profile\', \'Master/profile\', '. $recents['id'] .')" class="list-group-item">';
                                 echo'<div class="media">';
                                     echo'<div class="pull-left">';
                                         echo'<img class="img-circle img-offline" src="'.$this->session->userdata('path').'images/photos/user4.png" alt="...">';
@@ -73,11 +73,11 @@
             <div class="pull-right pagination-menu-div">
                 <ul class="directory-pagination pagination pagination-split pagination-sm pagination-contact">
                     <li class="disabled btn-pagination-back"><a href="#"><i class="fa fa-angle-left"></i></a></li>
-                    <li class="active"><a href="javascript:refresh_directorio(1);">1</a></li>
+                    <li class="active"><a href="javascript:refreshDirectory(1);">1</a></li>
                     <?php for ($i=2; $i <= $pages ; $i++) { 
-                        echo '<li><a href="javascript:refresh_directorio('.$i.');">'.$i.'</a></li>';
+                        echo '<li><a href="javascript:refreshDirectory('.$i.');">'.$i.'</a></li>';
                     } ?>                    
-                    <li class="btn-pagination-next"><a href="javascript:refresh_directorio(-1);"><i class="fa fa-angle-right"></i></a></li>
+                    <li class="btn-pagination-next"><a href="javascript:refreshDirectory(-1);"><i class="fa fa-angle-right"></i></a></li>
                     <li class="hidden pagination-pages"><?= $pages; ?></li>
                 </ul>
             </div>
@@ -90,7 +90,7 @@
                     foreach ($drtr_results as $result) {
                         if($count==5) break;
                     ?>    
-                        <a href="#" onclick="go_to_perfil(<?= $result->id ?>);" class="list-group-item">
+                        <a href="#" onclick="goTo('profile', 'Master/profile', '<?= $result->id?>');" class="list-group-item">
                             <div class="media">
                                 <div class="pull-left">
                                     <img class="img-circle img-online" src="<?= $path ?>images/photos/user1.png" alt="...">

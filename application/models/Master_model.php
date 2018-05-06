@@ -812,8 +812,8 @@ class Master_model extends CI_Model{
 
         $pagination_wrapper ='<ul class="directory-pagination pagination pagination-split pagination-sm pagination-contact">';
         $pagination_wrapper_closing ='</ul>';
-        $pagination_tabs_prev_btn = '<li class="btn-pagination-back"><a href="javascript:refresh_directorio(\'-2\');"><i class="fa fa-angle-left"></i></a></li>';
-        $pagination_tabs_next_btn = '<li class="btn-pagination-next"><a href="javascript:refresh_directorio(-1);"><i class="fa fa-angle-right"></i></a></li>';
+        $pagination_tabs_prev_btn = '<li class="btn-pagination-back"><a href="javascript:refreshDirectory(\'-2\');"><i class="fa fa-angle-left"></i></a></li>';
+        $pagination_tabs_next_btn = '<li class="btn-pagination-next"><a href="javascript:refreshDirectory(-1);"><i class="fa fa-angle-right"></i></a></li>';
         $pagination_tabs_pages = '<li class="hidden pagination-pages">'.$tpages.'</li>';
 
 
@@ -875,7 +875,7 @@ class Master_model extends CI_Model{
     			if( $i == $new_page ){
     				$pagination_tabs_content .= 'active';
     			}
-    			$pagination_tabs_content .= '"><a href="javascript:refresh_directorio(\''.$i.'\');">'.$i.'</a></li>';
+    			$pagination_tabs_content .= '"><a href="javascript:refreshDirectory(\''.$i.'\');">'.$i.'</a></li>';
 			}
 
 			$pagination_hidden_val = '<li class="hidden pagination-pages">'.$tpages.'</li>';
@@ -883,10 +883,9 @@ class Master_model extends CI_Model{
 	}
 
 	function getRefreshDirectory($data){
-		$directory_html = '';
-		//print_r($data);die;
+		$directory_html = '';		
 		foreach ($data['drtr_results'] as $result){
-		 	$directory_html .= '<a href="#" onclick="go_to_perfil('. $result->id .');" class="list-group-item">';
+		 	$directory_html .= '<a href="#" onclick="goTo(\'profile\', \'Master/profile\',  '. $result->id .');" class="list-group-item">';
                             $directory_html .='<div class="media">';
                                 $directory_html .='<div class="pull-left">';
                                     $directory_html .='<img class="img-circle img-online" src="'. $this->session->userdata('path') . 'images/photos/user1.png" alt="...">';

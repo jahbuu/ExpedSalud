@@ -4,7 +4,7 @@
                         # code...
                         if($count==5) break;
                     ?>    
-                        <a href="#" onclick="go_to_perfil(<?= $result->id ?>);" class="list-group-item">
+                        <a href="#" onclick="goTo('profile', 'Master/profile', '<?= $result->id ?>');" class="list-group-item">
                             <div class="media">
                                 <div class="pull-left">
                                     <img class="img-circle img-online" src="<?= $this->session->userdata('path'); ?>images/photos/user1.png" alt="...">

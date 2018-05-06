@@ -26,7 +26,7 @@
                 //Ready functions
                 jQuery(document).ready(function() {                            
                     // Since the calendar is the deafult view; Initialize it
-                    init_calendar();
+                    initCalendar();
                 });
                    
 
@@ -34,182 +34,63 @@
             </script>
             <script>
                 //Calendar functions
-
-
-            </script>
-            <script>
-                //Directory functions
-                function initDirectory(side = 0){                    
-                    //Get the html element
-                    var $mysel = $("#search-type");
-                    //Initialize the html element with selec2 library
-                    $mysel.select2({                        
-                        ajax: {
-                            url:'<?= $path;?>index.php/Master/getDirectory',
-                            type:'POST',
-                            dataType:'json',
-                            delay:250,
-                            data: function(params){
-                                //alert(JSON.stringify(params));
-                                return {
-                                    q: params,                                    
-                                    page :  $(".directory-pagination li.pagination-pages").html()
-                                };                            
-                            },
-                            results: function (data, params) {
-                                
-
-                       
-                                return {
-                                    results: data.results
-                                };
-                            },
-                            cache:true
-                        },                    
-                    });
-                                                        
-                    $mysel.change(function() {
-                      go_to_perfil(this.value);
-                    });       
-                }
-
-            </script>
-            <script>
-                //Profile functions
-
-
-            </script>
-            <script>
-                //Forms functions
-
-
-            </script>
-            <script>
-                //Navigation functions
-
-
-            </script>
-            <script>
-                //Overall functions
-
-                //Select2 initialization template
-                function initSelec2(element_id, list_id, data_function, result_function){
-                    //
-
-                }
-                //AjaxRequest template
-                function ajaxRequest( type = '', url = '', async = '', data = '', success = '', error = '', dataType = '' ){
-                    $.ajax({
-                        type: type,
-                        url: url,
-                        async: async,
-                        dataType:dataType,                    
-                        data: data,
-                        success: success,
-                        error: error
-                    });
-                }
-
-
-            </script>
-
-
-            <script>
-
-           
-        
-              
-
-                function btn_pagination_refresh(side = 0){
-
-                }
-
-                function refresh_directorio(side = 0){
-                        ajaxRequest( 
-                            'POST', 
-                            '<?= $path . "index.php/Master/refreshDirectory" ; ?>',
-                            'false',  
-                            {'side' : side, orderby:'', tpages:$('li.pagination-pages').html(), current_page:$('li.active a').html()},                  
-                            function(data){                        
-                                $(".all-contacts-div").html(data.directory);                                   
-                                $(".pagination-menu-div").html(data.pagination);                                   
-                                
-                            },
-                            function(){
-                                //alert("error");
-                            },
-                            'json'
-                        );
-
-                }
-
-
-                function init_perfil(){
-
-                }
-
-
-                //Calendar function
-                function init_calendar(){
-                    jQuery('#external-events div.external-event').each(function() {
-                                  
-                            // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-                            // it doesn't need to have a start or end
-                            var eventObject = {
-                                title: $.trim($(this).text()) // use the element's text as the event title
-                            };
-                                          
-                            // store the Event Object in the DOM element so we can get to it later
-                            jQuery(this).data('eventObject', eventObject);
-                                          
-                            // make the event draggable using jQuery UI
-                            jQuery(this).draggable({
-                                zIndex: 999,
-                                revert: true,      // will cause the event to go back to its
-                                revertDuration: 0  //  original position after the drag
-                            });
-                        });                    
-                        /* initialize the calendar */  
-                        jQuery('#calendar').fullCalendar({
-                            header: {
-                                    left: 'prev,next today',
-                                    center: 'title',
-                                    right: 'month,agendaWeek,agendaDay'
-                            },
-                            editable: false,
-                            droppable: false, // this allows things to be dropped onto the calendar !!!
-                            drop: function(date, allDay) { // this function is called when something is dropped                                  
-                                // retrieve the dropped element's stored Event Object
-                                var originalEventObject = jQuery(this).data('eventObject');
-                                                  
-                                // we need to copy it, so that multiple events don't have a reference to the same object
-                                var copiedEventObject = $.extend({}, originalEventObject);
-                                                  
-                                // assign it the date that was reported
-                                copiedEventObject.start = date;
-                                copiedEventObject.allDay = allDay;
-                                                  
-                                // render the event on the calendar
-                                // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-                                jQuery('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-                                                  
-                                // is the "remove after drop" checkbox checked?
-                                if (jQuery('#drop-remove').is(':checked')) {
-                                    // if so, remove the element from the "Draggable Events" list
-                                    jQuery(this).remove();
-                                }
-                            },
-                            eventClick: function(calEvent, jsEvent, view) {
-                                console.log('Event: ' + calEvent.title);                                
-                                
-                            },
-                            events: '<?= $path . "index.php/Ccalendar/getEvents";?>',
-                             eventClick: function(event, element) {
-                                event.title = "CLICKED!";
-                                $('#calendar').fullCalendar('updateEvent', event);
-                              }
+                function initCalendar(){
+                    jQuery('#external-events div.external-event').each(function() {                                  
+                        // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+                        // it doesn't need to have a start or end
+                        var eventObject = {
+                            title: $.trim($(this).text()) // use the element's text as the event title
+                        };
+                                      
+                        // store the Event Object in the DOM element so we can get to it later
+                        jQuery(this).data('eventObject', eventObject);
+                                      
+                        // make the event draggable using jQuery UI
+                        jQuery(this).draggable({
+                            zIndex: 999,
+                            revert: true,      // will cause the event to go back to its
+                            revertDuration: 0  //  original position after the drag
+                        });
+                    });                    
+                    /* initialize the calendar */  
+                    jQuery('#calendar').fullCalendar({
+                        header: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'month,agendaWeek,agendaDay'
+                        },
+                        editable: false,
+                        droppable: false, // this allows things to be dropped onto the calendar !!!
+                        drop: function(date, allDay) { // this function is called when something is dropped                                  
+                            // retrieve the dropped element's stored Event Object
+                            var originalEventObject = jQuery(this).data('eventObject');
+                                              
+                            // we need to copy it, so that multiple events don't have a reference to the same object
+                            var copiedEventObject = $.extend({}, originalEventObject);
+                                              
+                            // assign it the date that was reported
+                            copiedEventObject.start = date;
+                            copiedEventObject.allDay = allDay;
+                                              
+                            // render the event on the calendar
+                            // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+                            jQuery('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+                                              
+                            // is the "remove after drop" checkbox checked?
+                            if (jQuery('#drop-remove').is(':checked')) {
+                                // if so, remove the element from the "Draggable Events" list
+                                jQuery(this).remove();
+                            }
+                        },
+                        eventClick: function(calEvent, jsEvent, view) {
+                            console.log('Event: ' + calEvent.title);                                 
+                        },
+                        events: '<?= $path . "index.php/Ccalendar/getEvents";?>',
+                        eventClick: function(event, element) {
+                            event.title = "CLICKED!";
+                            $('#calendar').fullCalendar('updateEvent', event);
                         }
-                    ); 
+                    }); 
                     // Tags Input
                     jQuery('#tags').tagsInput({width:'auto'});
                      
@@ -286,30 +167,167 @@
                         }
                     });     
 
-                     var $mysel = $("#add-event-select2");
-                    $mysel.select2({    
-                        placeholder:'Srchng fr',
+                    // init the add event Select2
+                        var data_function = function(params){
+                            // q is the raw parameter of the searched item
+                            // page is the number of pages
+                            return {
+                                q: params,                                    
+                                page :  params.page || 1
+                            };                            
+                        }
+                        var result_function = function(data){
+                            return {
+                                results: data.results
+                            };
+                        }
+                        initSelec2( 'add-event-select2', 'Master/getDirectory', data_function, result_function );
+                    //end initialization
+                                  
+                }
+            </script>
+            <script>
+                //Directory functions
+                function initDirectory(side = 0){                                        
+                    var data_function = function(params){                        
+                        return {
+                            q: params,                                    
+                            page :  $(".directory-pagination li.pagination-pages").html()
+                        };                            
+                    }
+                    var result_function = function (data, params) {                             
+                        return {
+                            results: data.results
+                        };
+                    }
+                    initSelec2( 'search-type', 'Master/getDirectory', data_function, result_function );
+
+                                                        
+                    $('#search-type').change(function() {                      
+                      goTo('profile', 'Master/profile', this.value);
+                    });       
+                }
+
+                function refreshDirectory(side = 0){
+                    var post = 'POST';
+                    var url = '<?= $path . "index.php/Master/refreshDirectory" ; ?>';
+                    var async = 'false';
+                    var data = {'side' : side, orderby:'', tpages:$('li.pagination-pages').html(), current_page:$('li.active a').html()};
+                    var success = function(data){                        
+                        $(".all-contacts-div").html(data.directory);                                   
+                        $(".pagination-menu-div").html(data.pagination);                                                           
+                    }
+                    var error = function(){
+                        //#code
+                    };
+                    var dataType = 'json';
+                    ajaxRequest( post, url, async, data, success, error, dataType );
+                }
+            </script>
+            <script>
+                //Profile functions
+
+
+            </script>
+            <script>
+                //Forms functions
+
+
+            </script>
+            <script>
+                //Navigation functions
+
+
+            </script>
+            <script>
+                //Overall functions
+
+                //Select2 initialization template
+                function initSelec2(element_id, list_id, data_function, result_function){
+                    //element_id -> id of the imputo to be initialize it
+                    //list_id or path is the function to be called. The controller must be specified
+                    //data_function is the callback from writting into the input (elemnt_id)
+                    //result_function is the callback from getting the list from the server
+
+                    //Get the html element                    
+                    var $mysel = $("#"+element_id+'');
+                    //Initialize the html element with selec2 library
+                    $mysel.select2({                        
                         ajax: {
-                            url:'<?= $path;?>index.php/Master/getDirectory',
+                            url:'<?= $path;?>index.php/' + list_id + '',
                             type:'POST',
                             dataType:'json',
                             delay:250,
-                            data: function(params){
-                                //alert(JSON.stringify(params));
-                                return {
-                                    q: params,                                    
-                                    page :  params.page || 1
-                                };                            
-                            },
-                            results: function (data, params) {                                                       
-                                return {
-                                    results: data.results
-                                };
-                            },
+                            data: data_function,
+                            results: result_function,
                             cache:true
-                        }                
-                    });              
+                        },                    
+                    });
                 }
+                //AjaxRequest template
+                function ajaxRequest( type = '', url = '', async = '', data = '', success = '', error = '', dataType = '' ){
+                    $.ajax({
+                        type: type,
+                        url: url,
+                        async: async,
+                        dataType:dataType,                    
+                        data: data,
+                        success: success,
+                        error: error
+                    });
+                }
+                //navigate through the sections
+                function goTo(section, url, id = 0){
+                    //section of the files
+                    //url or path is the function to be called. The controller must be specified
+                    //id
+                    switch(section){
+                        case 'profile':
+                        var success = function(data){
+                            set_content_body(data);                    
+                        };
+                            break;
+                        case 'directory':
+                        var success = function(data){
+                            set_content_body(data);
+                            setTimeout(function(){                                                    
+                                initDirectory();                           
+                            }, 300);
+                        }
+                            break;
+                        case 'calendar':
+                            var success = function(data){
+                                set_content_body(data);
+                                setTimeout(function(){                        
+                                    initCalendar();
+                                }, 300);
+                            };
+                            break;
+                    }
+
+                    var type = "POST";                    
+                    var url = "<?= $path . "index.php/"; ?>" + url;
+                    var async = "async";
+                    if( id == 0 ){
+                        var data = { k_id : '<?= $this->session->userdata('userdata')['id']; ?>' };  
+                    }else{
+                        var data = { k_id : id };  
+                    }
+                    var error = function(){};
+                    ajaxRequest(type, url, async, data, success, error);
+                }
+
+            </script>
+
+
+            <script>
+
+           
+
+              
+
+                //Calendar function
+                
 
                 function init_data_tables(){
                     jQuery('#basicTable').DataTable({
@@ -616,7 +634,7 @@
                     function view_more(tipo,){
                         event.preventDefault(); // prevent page from redirecting
                         var type = "POST";                    
-                        var url = "<?php echo $path . "index.php/Master/getHistoryComplete/"; ?>"+ tipo;
+                        var url = "<?= $path . "index.php/Master/getHistoryComplete/"; ?>"+ tipo;
                         var async = "async";
                         var data = [];
                         var success = function(data){
@@ -717,55 +735,6 @@
                 function set_content_body(content){
                     $( ".mainpanel" ).html(content);
                 }
-
-                function go_to_perfil(id){
-                    var type = "POST";                    
-                    var url = "<?php echo $path . "index.php/Master/perfil/"; ?>"+id;
-                    var async = "async";
-                    var data = [];
-                    var success = function(data){
-                        set_content_body(data);
-                        setTimeout(function(){                        
-                                                        
-                        }, 300);
-                    };
-                    var error = function(){};
-                    ajaxRequest(type, url, async, data, success, error);
-                }
-
-                function go_to_directorio(){                    
-                    var type = "POST";
-                    
-                    var url = "<?php echo $path . "index.php/Master/directorio/". $this->session->userdata('userdata')['id'] . ""; ?>";
-                    var async = "async";
-                    var data = [];
-                    var success = function(data){
-                        set_content_body(data);
-                        setTimeout(function(){                                                    
-                            initDirectory();                           
-                        }, 300);
-                    }
-                    var error = function(){};
-                    ajaxRequest(type, url, async, data, success, error);
-                }
-
-                function go_to_agenda(){
-                    var type = "POST";
-                    
-                    var url = "<?php echo $path . "index.php/Master/agenda/". $this->session->userdata('userdata')['id'] . ""; ?>";
-                    var async = "async";
-                    var data = [];
-                    var success = function(data){
-                        set_content_body(data);
-                        setTimeout(function(){                        
-                            init_calendar();
-                        }, 300);
-                    };
-                    var error = function(){};
-                    ajaxRequest(type, url, async, data, success, error);
-
-                }
-
                 
        </script>>
     </body>

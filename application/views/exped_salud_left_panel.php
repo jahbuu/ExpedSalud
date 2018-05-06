@@ -14,8 +14,8 @@
     <h5 class="leftpanel-title">Navigation</h5>
     <ul class="nav nav-pills nav-stacked">                
 		<?php if($this->session->userdata('userdata')['role'] == 'med'){ ?>
-			<li><a id="id_menu_agenda" href="#" onclick='go_to_agenda();' ><i class="fa fa-bars"></i> <span>Agenda</span></a></li>
-			<li><a id="id_menu_directorio" href="#" onclick='go_to_directorio();'><i class="fa fa-map-marker"></i> <span>Directorio</span></a></li>
+			<li><a id="id_menu_agenda" href="#" onclick="goTo('calendar', 'Master/calendar', 0);" ><i class="fa fa-bars"></i> <span>Agenda</span></a></li>
+			<li><a id="id_menu_directorio" href="#" onclick="goTo('directory', 'Master/directory', 0);"><i class="fa fa-map-marker"></i> <span>Directorio</span></a></li>
 		<?php } ?>
     </ul>            
 </div><!-- leftpanel -->

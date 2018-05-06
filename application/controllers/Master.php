@@ -105,21 +105,22 @@ class Master extends CI_Controller {
 		$this->load->view($this->view_prefix . 'signin', $this->getData('signin'));
 	}	
 
-	public function agenda(){
+	public function calendar(){
 
 		$this->load_my_view('agenda');
 
 	}
 
-	public function directorio(){		
+	public function directory(){		
 
 		$this->load_my_view('directorio');
 
 	}
 
-	public function perfil(){
-		if( $this->uri->segment(3) !== null ){
-			$this->Master_model->setProfileData( $this->uri->segment(3) );	
+	public function profile(){
+		
+		if( $this->input->post('k_id') !== null ){
+			$this->Master_model->setProfileData( $this->input->post('k_id') );	
 			$this->Master_model->addVisit();
 		}		
 		$this->load_my_view('perfil');
