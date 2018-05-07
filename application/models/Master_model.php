@@ -486,8 +486,12 @@ class Master_model extends CI_Model{
 
 	}
 
-	function addForm( $data, $pid ){			
-		switch ($data['formtype']){
+
+
+	function addForm($data){		
+		$pid = $this->session->userdata('profile_data')['id'];
+		if( isset($data['form_type']) ){			
+			switch ($data['form_type']){
 			//Historia clinica			
 			case 1:							
 				if ($this->db->insert('form_historia_clinica', array(
@@ -503,11 +507,7 @@ class Master_model extends CI_Model{
 					'id_medico' => $this->session->userdata('userdata')['id'],
 					'id_modificado' => $this->session->userdata('userdata')['id']
 
-				))){
-					//
-				}else{
-					//
-				}
+				))){}
 				break;
 			//Examen fisico
 			case 2:
@@ -551,7 +551,6 @@ class Master_model extends CI_Model{
 						));
 					}				
 				}
-
 				if( $data['pa_count'] >= 1 ){					
 					for ($i = 1; $i <= $data['pa_count']; $i++) {
 						if ($data['pa'.$i.'_02'] != "")
@@ -569,7 +568,6 @@ class Master_model extends CI_Model{
 				break;
 			//Examenes de laboratorio
 			case 4:
-
 				if( $data['radio'] == 2){				
 					$thefilename="";
 					$temporaryPath = getcwd() . '/temporary_user_files/' . $pid . "/";
@@ -599,10 +597,8 @@ class Master_model extends CI_Model{
 								}
 							}
 							rmdir($temporaryPath);
-
 						}
 					}
-
 					$this->db->insert('form_examenes', array(						
 						'enlace'=>$thefilename,					
 						'tipo'=> 1, // 1 -> el
@@ -619,27 +615,19 @@ class Master_model extends CI_Model{
 					'id_modificado' => $this->session->userdata('userdata')['id']
 					));
 				}
-
-				
-
-				
-				
 				break;
 			case 5:				
 				if( $data['radio'] == 2){				
 					$thefilename="";
 					$temporaryPath = getcwd() . '/temporary_user_files/' . $pid . "/";
 					$targetPath = getcwd() . '/user_files/' . $pid . "/";
-
 					if( !is_dir($targetPath) ){
 						mkdir($targetPath);
 					}
-
 					$targetPath = getcwd() . '/user_files/' . $pid . "/eg/";				
 					if( !is_dir($targetPath) ){
 						mkdir($targetPath);
 					}
-
 					if ( is_dir($temporaryPath)  ){
 						if ( $this->is_dir_empty($temporaryPath) ){
 							//Exist and is empty						
@@ -658,7 +646,6 @@ class Master_model extends CI_Model{
 
 						}
 					}
-
 					$this->db->insert('form_examenes', array(						
 						'enlace'=>$thefilename,					
 						'tipo'=> 2, // 2 -> eg
@@ -672,22 +659,18 @@ class Master_model extends CI_Model{
 					));
 				}
 				break;
-
 			case 6:				
 				if( $data['radio'] == 2){				
 					$thefilename="";
 					$temporaryPath = getcwd() . '/temporary_user_files/' . $pid . "/";
 					$targetPath = getcwd() . '/user_files/' . $pid . "/";
-
 					if( !is_dir($targetPath) ){
 						mkdir($targetPath);
 					}
-
 					$targetPath = getcwd() . '/user_files/' . $pid . "/rs/";				
 					if( !is_dir($targetPath) ){
 						mkdir($targetPath);
 					}
-
 					if ( is_dir($temporaryPath)  ){
 						if ( $this->is_dir_empty($temporaryPath) ){
 							//Exist and is empty						
@@ -703,10 +686,8 @@ class Master_model extends CI_Model{
 								}
 							}
 							rmdir($temporaryPath);
-
 						}
 					}
-
 					$this->db->insert('form_examenes', array(						
 						'enlace'=>$thefilename,					
 						'tipo'=> 3, // 2 -> rs
@@ -720,13 +701,53 @@ class Master_model extends CI_Model{
 					));
 				}
 				break;
-
-				
-
-
+			}
 		}
 	}
 
+
+	// new getFormData
+	function getFormLayout($form_name, $form_id, $p_id, $type){
+		$table="";		
+		$where = Array(
+			'id' => $form_id,
+			'id_persona' => $p_id
+		);
+		if ( $form_name == "egl_rs" ){			
+			$form_name = "examenes";
+			$where['tipo'] = $type;
+		}
+		$this->db->where( $where );		
+
+
+
+		
+		$query = $this->db->get('form_'.$form_name);
+
+		$result='';
+		foreach( $query->result() as $row ){
+			$result = $row;
+		}
+
+		$result = json_decode(json_encode($result), True);
+
+		
+
+		if( $form_name == "problemas"){
+
+			$where = Array(
+				'fecha' => $result['fecha']
+			);
+			$result='';
+			$this->db->where( $where );
+			$query = $this->db->get('form_'.$form_name);
+			foreach( $query->result() as $row ){
+				$result[] = $row;
+			}
+		}
+		$result = json_decode(json_encode($result), True);		
+		return $result;
+	}
 	function getFormData($form_name, $formid, $pid, $type){
 		$table="";		
 		$where = Array(
@@ -782,12 +803,13 @@ class Master_model extends CI_Model{
 
 	function guardar_form($post_data, $pid){
 
-		if( isset($post_data['formtype']) ){						
+		if( isset($post_data['form_type']) ){						
 			$this->addForm($post_data, $pid);
 		}else{
 			//echo error
 		}		
 	}
+
 
 	function get_history_form(){
 		

@@ -94,7 +94,7 @@ if( isset( $form_data ) ){
 
                                             <div class="panel-footer">
                                                 <?php if( $display_normal ){ ?>
-                                                <button class="btn btn-primary" onclick="show_guardar_form_confirmation_modal('hc', '<?= $this->session->userdata('profile_data')['id']; ?>');" >Guardar</button>
+                                                <button class="btn btn-primary" onclick="showModalManual('hc', '.panel-scm');" >Guardar</button>
                                                 <?php } ?>
                                                 <button class="btn btn-primary" onclick="backto('<?= $this->session->userdata('profile_data')['id']; ?>');">Regresar</button>
                                             </div><!-- panel-footer -->

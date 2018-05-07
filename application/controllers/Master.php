@@ -303,6 +303,53 @@ class Master extends CI_Controller {
 		echo $this->Master_model->guardar_form( $this->input->post(), $this->session->userdata('profile_data')['id'] );
 	}
 
+	function addForm(){
+		echo $this->Master_model->addForm( $this->input->post() );	
+	}
+
+	//new load_form
+	function getFormLayout(){
+		$values = $this->input->post();
+		$values['path'] = $this->path;
+		
+		
+		$form_name = "";
+		switch($values['form_value']){
+			case 'hc':
+				$form_name = "historia_clinica";
+				$values['type'] = 0;
+				break;
+			case 'ef':
+				$form_name = "examen_fisico";
+				$values['type'] = 0;
+				break;
+			case 'pca':
+				$form_name = "problemas";
+				$values['type'] = 0;
+				break;
+			case 'eg':
+				$form_name = "egl_rs";
+				$values['type'] = 2;
+				break;
+			case 'el':
+				$form_name = "egl_rs";
+				$values['type'] = 1;
+				break;
+			case 'rs':
+				$form_name = "egl_rs";
+				$values['type'] = 3;
+				break;
+		}
+		if( isset($values['form_id']) && $values['form_id'] != 0 ){			
+			$values['form_data'] = $this->Master_model->getFormLayout( $form_name, $values['form_id'], $this->session->userdata('profile_data')['id'], $values['type']);
+			//$values['form_data'] = json_decode(json_encode($values['form_data']), True);
+		}
+		
+			
+		
+		$this->load->view($this->forms . $form_name , $values);
+	}
+
 	function load_form(){
 		$values = $this->input->post();
 		$values['path'] = $this->path;
@@ -335,8 +382,8 @@ class Master extends CI_Controller {
 				$values['type'] = 3;
 				break;
 		}
-		if( isset($values['formid'])  ){			
-			$values['form_data'] = $this->Master_model->getFormData( $form_name, $values['formid'], $this->session->userdata('profile_data')['id'], $values['type']);
+		if( isset($values['form_id']) && $values['form_id'] != 0 ){			
+			$values['form_data'] = $this->Master_model->getFormData( $form_name, $values['form_id'], $this->session->userdata('profile_data')['id'], $values['type']);
 			//$values['form_data'] = json_decode(json_encode($values['form_data']), True);
 		}
 		

@@ -34,17 +34,16 @@
             </script>
             <script>
                 //Calendar functions
+                //Calendar initizalition
                 function initCalendar(){
                     jQuery('#external-events div.external-event').each(function() {                                  
                         // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
                         // it doesn't need to have a start or end
                         var eventObject = {
                             title: $.trim($(this).text()) // use the element's text as the event title
-                        };
-                                      
+                        };    
                         // store the Event Object in the DOM element so we can get to it later
-                        jQuery(this).data('eventObject', eventObject);
-                                      
+                        jQuery(this).data('eventObject', eventObject);        
                         // make the event draggable using jQuery UI
                         jQuery(this).draggable({
                             zIndex: 999,
@@ -93,22 +92,17 @@
                     }); 
                     // Tags Input
                     jQuery('#tags').tagsInput({width:'auto'});
-                     
                     // Textarea Autogrow
                     jQuery('#autoResizeTA').autogrow();
-
                     // Spinner
                     var spinner = jQuery('#spinner').spinner();
                     spinner.spinner('value', 0);
-
                     // Form Toggles
                     jQuery('.toggle').toggles({on: true});
-
                     // Time Picker
                     jQuery('#timepicker').timepicker({defaultTIme: false});
                     jQuery('#timepicker2').timepicker({showMeridian: false});
                     jQuery('#timepicker3').timepicker({minuteStep: 15});
-
                     // Date Picker
                     jQuery('#datepicker').datepicker();
                     jQuery('#datepicker-inline').datepicker();
@@ -116,22 +110,18 @@
                         numberOfMonths: 3,
                         showButtonPanel: true
                     });
-
                     // Input Masks
                     jQuery("#date").mask("99/99/9999");
                     jQuery("#phone").mask("(999) 999-9999");
                     jQuery("#ssn").mask("999-99-9999");
-
                     // Select2
                     jQuery("#select-basic, #select-multi").select2();
                     jQuery('#select-search-hide').select2({
                         minimumResultsForSearch: -1
                     });
-
                     function format(item) {
                         return '<i class="fa ' + ((item.element[0].getAttribute('rel') === undefined)?"":item.element[0].getAttribute('rel') ) + ' mr10"></i>' + item.text;
                     }
-
                     // This will empty first option in select to enable placeholder
                     jQuery('select option:first-child').text('');
 
@@ -140,7 +130,6 @@
                         formatSelection: format,
                         escapeMarkup: function(m) { return m; }
                     });
-
                     // Color Picker
                     if(jQuery('#colorpicker').length > 0) {
                         jQuery('#colorSelector').ColorPicker({
@@ -158,7 +147,6 @@
                             }
                         });
                     }
-
                     // Color Picker Flat Mode
                     jQuery('#colorpickerholder').ColorPicker({
                         flat: true,
@@ -166,29 +154,29 @@
                             jQuery('#colorpicker3').val('#'+hex);
                         }
                     });     
-
-                    // init the add event Select2
-                        var data_function = function(params){
-                            // q is the raw parameter of the searched item
-                            // page is the number of pages
-                            return {
-                                q: params,                                    
-                                page :  params.page || 1
-                            };                            
-                        }
-                        var result_function = function(data){
-                            return {
-                                results: data.results
-                            };
-                        }
-                        initSelec2( 'add-event-select2', 'Master/getDirectory', data_function, result_function );
-                    //end initialization
+                    // Set select2 initialization parameters
+                    var data_function = function(params){
+                        // q is the raw parameter of the searched item
+                        // page is the number of pages
+                        return {
+                            q: params,                                    
+                            page :  params.page || 1
+                        };                            
+                    }
+                    var result_function = function(data){
+                        return {
+                            results: data.results
+                        };
+                    }
+                    initSelec2( 'add-event-select2', 'Master/getDirectory', data_function, result_function );                    
                                   
                 }
             </script>
             <script>
                 //Directory functions
-                function initDirectory(side = 0){                                        
+                //Initializaton of the irectory
+                function initDirectory(side = 0){
+                    //Set select2 initialization parameters
                     var data_function = function(params){                        
                         return {
                             q: params,                                    
@@ -201,14 +189,14 @@
                         };
                     }
                     initSelec2( 'search-type', 'Master/getDirectory', data_function, result_function );
-
-                                                        
+                    // Set selec2 onChange function to navigate to the profile of the selected result                                                        
                     $('#search-type').change(function() {                      
                       goTo('profile', 'Master/profile', this.value);
                     });       
                 }
-
+                // Refreshes the directory based on the pagination selection
                 function refreshDirectory(side = 0){
+                    //Set ajax parameters
                     var post = 'POST';
                     var url = '<?= $path . "index.php/Master/refreshDirectory" ; ?>';
                     var async = 'false';
@@ -231,7 +219,107 @@
             </script>
             <script>
                 //Forms functions
-
+                // Show getFormLayout confirmation modal
+                function getFormLayoutConfirm(form_value){
+                    getFormLayout(form_value);
+                    setTimeout(function(){                        
+                        $(".panel-"+form_value).modal("hide");
+                    }, 200);
+                }
+                // Ajax request to load the formlayout
+                function getFormLayout(form_value, form_id = -1){
+                    //Set ajax parameters
+                    var data = {                                                        
+                        form_value : form_value
+                    }                        
+                    if (form_id == -1){
+                        // #
+                    }else if(form_id != 0){
+                        data['form_id'] = formid;
+                        
+                    }else{
+                        data['form_id'] =  $("#"+form_value+"_value").val();
+                    }
+                    var type = "POST";                    
+                    var url = '<?= $path . "index.php/Master/getFormLayout";?>';
+                    var async = "async";
+                    var success = function(data){
+                        $("#historial").html(data);
+                        setTimeout(function(){                        
+                            if(form_value == 'pca'){
+                                init_problemas_toolkit();
+                            }else if(form_value = 'el'){
+                                init_eglrs_toolkit();
+                            }
+                        }, 300);
+                              
+                    };
+                    var error = function(){};  
+                    ajaxRequest(type, url, async, data, success, error);                   
+                }
+                // Show the selected modal manually
+                function showModalManual(form_value, modal){
+                    // Missing the separation of the functions, this should only show the selected modal and
+                    // create the layout depending on the form value. The form value should be setted in another
+                    // funcion
+                    $(modal).modal('show');                
+                    $("#save_confirmation_value").val(form_value);
+                }
+                // Show the addFormData confirmation modal
+                function addFormDataConfirm(form_value){                    
+                    addFormData( $("#save_confirmation_value").val());                                                    
+                    setTimeout(function(){ 
+                        $('.panel-scm').modal('hide');
+                        backto();
+                    }, 300);
+                }
+                function addFormData(form_type){
+                    // Set ajax parameters
+                    var data = $("[name='"+form_type+"_form']").serializeArray();                                                
+                    var name = 'form_type';
+                    var value = '';
+                    switch(form_type){
+                        case 'hc':                                                
+                            value = 1;
+                        break;
+                        case 'ef':                        
+                            value = 2;
+                        break;
+                        case 'pca':                                                        
+                            data.push( {name, value} );
+                            name = pa_count;
+                            value = $(".row-agudo").length;
+                            data.push( {name, value} );
+                            name = pa_count;
+                            value = $(".row-cronico").length;
+                            data.push( {name, value} );
+                            name = 'form_type';
+                            value = 3;                            
+                        break;
+                        case 'el':                                
+                            value = 4;
+                        break;
+                        case 'eg':
+                            value = 5;
+                        break;
+                        case 'rs':
+                            value = 6;                                
+                        break;                            
+                    }                        
+                    data.push( {name, value} );
+                    var type = "POST";                    
+                    var url = '<?= $path . "index.php/Master/addForm";?>';
+                    var async = "async";     
+                    var success = function(data){
+                            setTimeout(function(){
+                                $(".panel-scss").modal('show');
+                            }, 300);
+                            
+                        };                
+                    var error = function(){};
+                    ajaxRequest(type, url, async, data, success, error);                  
+                    return false;
+                }
 
             </script>
             <script>
@@ -241,8 +329,7 @@
             </script>
             <script>
                 //Overall functions
-
-                //Select2 initialization template
+                //Select2 initialization 
                 function initSelec2(element_id, list_id, data_function, result_function){
                     //element_id -> id of the imputo to be initialize it
                     //list_id or path is the function to be called. The controller must be specified
@@ -264,7 +351,7 @@
                         },                    
                     });
                 }
-                //AjaxRequest template
+                //AjaxRequest 
                 function ajaxRequest( type = '', url = '', async = '', data = '', success = '', error = '', dataType = '' ){
                     $.ajax({
                         type: type,
@@ -316,6 +403,15 @@
                     var error = function(){};
                     ajaxRequest(type, url, async, data, success, error);
                 }
+                // Updates the main panel content
+                function set_content_body(html){
+
+                    $( ".mainpanel" ).html(html);
+                }
+                function datepicker_init(id){
+
+                    jQuery(id).datepicker({format:'dd-M-yyyy'});
+                }
 
             </script>
 
@@ -328,7 +424,7 @@
 
                 //Calendar function
                 
-
+                // no esta bien inicializada la tabla los botones de navegacion estan sin el css igual que la barra para buscar
                 function init_data_tables(){
                     jQuery('#basicTable').DataTable({
                         responsive: true,
@@ -442,12 +538,11 @@
                         var modal_reference = ".panel-"+form_value;
 
                         setTimeout(function(){                        
-                            $(modal_reference).modal("hide");
+                            $(".panel-"+form_value).modal("hide");
                         }, 300);
-
-                    }
+                    }                    
                     //Cargar el form en pa lagina principal
-                    function load_form(form_value, mode, formid){
+                    function load_form(form_value, mode, formid = 0){
                         
                         var data = {                            
                             mode : mode,
@@ -455,9 +550,9 @@
                         }
                         if( mode == 2 ){
                             if (formid != 0){
-                                data['formid'] = formid;
+                                data['form_id'] = formid;
                             }else{
-                                data['formid'] =  $("#"+form_value+"_value").val();
+                                data['form_id'] =  $("#"+form_value+"_value").val();
                             }
                             
                         }
@@ -515,14 +610,7 @@
                             datepicker_init('#datepicker_pa'+ i +'_01');
                             datepicker_init('#datepicker_pa'+ i +'_03');    
                         }
-                       
-                        
-
-                    };
-                    function datepicker_init(id){
-                        jQuery(id).datepicker({format:'dd-M-yyyy'});
-                    }
-
+                    };            
                     function init_eglrs_toolkit(){
                         $('[name=radio]').change(function() {
                             if( $(this).val() == 1){
@@ -537,7 +625,6 @@
                         });
 
                         $(".dropzone").dropzone();
-
                     }
                     function backto(){
                         var data = '';
@@ -552,84 +639,6 @@
                             function(){
                                 //alert("error");
                         });
-                    }
-                    //Verificacion para mostrar el form / edición
-                    function form_load_confirmation(value, form_value){               
-                        if( value == 1){
-                            //                    
-                        }else if( value == 2){
-                            load_form(form_value, 2, 0);                    
-                        }
-
-                        var modal_reference = ".panel-"+form_value+"-l";
-
-                        setTimeout(function(){                        
-                            $(modal_reference).modal("hide");
-                        }, 300);
-
-                    }
-                    function show_guardar_form_confirmation_modal(form_value){
-                        $(".panel-scm").modal('show');                
-                        $("#save_confirmation_value").val(form_value);                      
-                    }
-                     //Confirmation message before saving the form
-                    function guardar_form_confirmation(value){
-                        
-                        if( value == 1){
-                            //                    
-                        }else if( value == 2){                              
-                            guardar_form( $("#save_confirmation_value").val());                            
-                        }
-                        setTimeout(function(){ 
-                            $(".bs-example-modal-panel").modal("hide");
-                            backto();
-                        }, 300);
-                    }                    
-                    //Save form function
-                    function guardar_form(tipo_form){                
-                        var form = "[name='"+tipo_form+"_form']";
-                        switch(tipo_form){
-                            case 'hc':                                                
-                                var extra_data = "&formtype="+1+"";
-                            break;
-                            case 'ef':                        
-                                var extra_data = "&formtype="+2+"";
-                            break;
-                            case 'pca':                        
-                                var pa_count = $(".row-agudo").length;
-                                var pc_count = $(".row-cronico").length;
-                                var extra_data = "&formtype="+3+"&pa_count="+pa_count+"&pc_count="+pc_count;
-                            break;
-                            case 'el':
-                                var extra_data = "&formtype="+4+"";      
-                            break;
-                            case 'eg':
-                                var extra_data = "&formtype="+5+"";
-                            break;
-                            case 'rs':
-                                var extra_data = "&formtype="+6+"";
-                            break;
-                            
-                        }            
-                        
-                        var data = $(form).serialize() + extra_data;
-                                        
-                        var type = "POST";                    
-                        var url = '<?= $path . "index.php/Master/guardar_form";?>';
-                        var async = "async";     
-                        var success = function(data){
-                                setTimeout(function(){
-                                    $(".panel-scss").modal('show');
-                                }, 300);
-                                
-                            };                
-                        var error = function(){};
-                        ajaxRequest(type, url, async, data, success, error);                  
-
-                        return false;
-                        
-
-                        
                     }
                     function view_more(tipo,){
                         event.preventDefault(); // prevent page from redirecting
@@ -648,19 +657,14 @@
 
                         return false;   
                     }
-
-
                     function add_c_section(event){
                         event.preventDefault(); // prevent page from redirecting
                           add_problem_section("c");
                         }; 
-                    
-
                     function remove_c_section(event){
                         event.preventDefault(); // prevent page from redirecting
                           remove_problem_section("c");
                         };
-
                     function add_problem_section(tipo){
                         //Problemas agudos
                         if(tipo=='a'){
@@ -705,7 +709,6 @@
                         datepicker_init( '#datepicker_p'+tipo+new_id+'_01' );
                         datepicker_init( '#datepicker_p'+tipo+new_id+'_03' );                        
                     }
-
                     function remove_problem_section(tipo){
                         //Problemas agudos
                         if(tipo=='a'){
@@ -728,14 +731,7 @@
                             $(modal_reference).modal("hide");
                         }, 300);
                     }
-
-
-
-                //Menu functionsss
-                function set_content_body(content){
-                    $( ".mainpanel" ).html(content);
-                }
-                
+             
        </script>>
     </body>
 </html>

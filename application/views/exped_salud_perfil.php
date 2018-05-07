@@ -535,7 +535,7 @@
                 </div>
                 <div class="panel-body">
                     <button class="btn btn-default btn-bordered" onclick="$('.panel-hc').modal('hide');">Cancelar</button>
-                    <button class="btn btn-primary btn-bordered" onclick="form_confirmation(2, 'hc');">Si</button>
+                    <button class="btn btn-primary btn-bordered" onclick="getFormLayoutConfirm('hc');">Si</button>
                 </div>
             </div>
 
@@ -556,8 +556,11 @@
                     
                 </div>
                 <div class="panel-body">
-                    <button class="btn btn-default btn-bordered" onclick="form_confirmation(1, 'ef');">Cancelar</button>
-                    <button class="btn btn-primary btn-bordered" onclick="form_confirmation(2, 'ef');">Si</button>
+                    <button class="btn btn-default btn-bordered" onclick="$('.panel-ef').modal('hide');">Cancelar</button>
+                    <button class="btn btn-primary btn-bordered" onclick="getFormLayoutConfirm('ef');">Si</button>
+                </div>
+                <div class="panel-footer">
+                    
                 </div>
             </div>
 
@@ -578,8 +581,11 @@
                     
                 </div>
                 <div class="panel-body">
-                    <button class="btn btn-default btn-bordered" onclick="form_confirmation(1, 'pca');">Cancelar</button>
-                    <button class="btn btn-primary btn-bordered" onclick="form_confirmation(2, 'pca');">Si</button>
+                    <button class="btn btn-default btn-bordered" onclick="$('.panel-pca').modal('hide');">Cancelar</button>
+                    <button class="btn btn-primary btn-bordered" onclick="getFormLayoutConfirm('pca');">Si</button>
+                </div>
+                <div class="panel-footer">
+                    
                 </div>
             </div>
 
@@ -600,8 +606,11 @@
                     
                 </div>
                 <div class="panel-body">
-                    <button class="btn btn-default btn-bordered" onclick="form_confirmation(1, 'el');">Cancelar</button>
-                    <button class="btn btn-primary btn-bordered" onclick="form_confirmation(2, 'el');">Si</button>
+                    <button class="btn btn-default btn-bordered" onclick="$('.panel-el').modal('hide');">Cancelar</button>
+                    <button class="btn btn-primary btn-bordered" onclick="getFormLayoutConfirm('el');">Si</button>
+                </div>
+                <div class="panel-footer">
+                    
                 </div>
             </div>
 
@@ -622,8 +631,11 @@
                     
                 </div>
                 <div class="panel-body">
-                    <button class="btn btn-default btn-bordered" onclick="form_confirmation(1, 'eg');">Cancelar</button>
-                    <button class="btn btn-primary btn-bordered" onclick="form_confirmation(2, 'eg');">Si</button>
+                    <button class="btn btn-default btn-bordered" onclick="$('.panel-eg').modal('hide');">Cancelar</button>
+                    <button class="btn btn-primary btn-bordered" onclick="getFormLayoutConfirm('eg');">Si</button>
+                </div>
+                <div class="panel-footer">
+                    
                 </div>
             </div>
 
@@ -644,8 +656,11 @@
                     
                 </div>
                 <div class="panel-body">
-                    <button class="btn btn-default btn-bordered" onclick="form_confirmation(1, 'rs');">Cancelar</button>
-                    <button class="btn btn-primary btn-bordered" onclick="form_confirmation(2, 'rs');" >Si</button>
+                    <button class="btn btn-default btn-bordered" onclick="$('.panel-rs').modal('hide');"">Cancelar</button>
+                    <button class="btn btn-primary btn-bordered" onclick="getFormLayoutConfirm('rs');">Si</button>
+                </div>
+                <div class="panel-footer">
+                    
                 </div>
             </div>
 
@@ -669,8 +684,8 @@
                     
                 </div>
                 <div class="panel-body">
-                    <button class="btn btn-default btn-bordered" onclick="guardar_form_confirmation(1);">Cancelar</button>
-                    <button class="btn btn-primary btn-bordered" onclick="guardar_form_confirmation(2);">Si</button>
+                    <button class="btn btn-default btn-bordered" onclick="$('.panel-scm').modal('hide');">Cancelar</button>
+                    <button class="btn btn-primary btn-bordered" onclick="addFormDataConfirm();">Si</button>
                 </div>
             </div>
 
