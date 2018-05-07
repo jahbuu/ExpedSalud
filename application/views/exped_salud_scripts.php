@@ -88,6 +88,7 @@
                         eventClick: function(event, element) {
                             event.title = "CLICKED!";
                             $('#calendar').fullCalendar('updateEvent', event);
+                            $('.panel-addEvent').modal('show');
                         }
                     }); 
                     // Tags Input
@@ -171,6 +172,25 @@
                     initSelec2( 'add-event-select2', 'Master/getDirectory', data_function, result_function );                    
                                   
                 }
+                function refetchCalendar(){
+                    $('#calendar').fullCalendar( 'refetchEvents' );
+                }
+                function addCalendarEvent(){
+                    var source = {
+                        creation_date : "2018-05-05 15:56:46",
+                        end : null,
+                        id : "1",
+                        id_patient : "10",
+                        id_user : "1",
+                        start : "2018-0-07 00:00:00",
+                        title : "Title",
+                    };
+
+                        
+                    $('#calendar').fullCalendar( 'addEventSource', source );   
+                }
+                
+
             </script>
             <script>
                 //Directory functions
@@ -681,7 +701,7 @@
                                             '<div class="form-group">'+
                                                 '<label class="control-label">Fecha de Diagnóstico:</label>'+
                                                 '<div class="input-group">'+
-                                                    '<input type="text" name="p'+tipo+new_id+'_01" class="form-control" placeholder="mm/dd/yyyy" id="datepicker_p'+tipo+new_id+'_01">'+
+                                                    '<input type="text" name="p'+tipo+new_id+'_01" class="form-control datepiker" placeholder="mm/dd/yyyy" id="datepicker_p'+tipo+new_id+'_01">'+
                                                     '<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>'+
                                                 '</div><!-- input-group -->'+
                                             '</div><!-- form-group -->'+
@@ -696,7 +716,7 @@
                                             '<div class="form-group">'+
                                                 '<label class="control-label">Fecha de Resolución:</label>'+
                                                 '<div class="input-group">'+
-                                                    '<input type="text" name="p'+tipo+new_id+'_03" class="form-control" placeholder="mm/dd/yyyy" id="datepicker_p'+tipo+new_id+'_03">'+
+                                                    '<input type="text" name="p'+tipo+new_id+'_03" class="form-control datepiker" placeholder="mm/dd/yyyy" id="datepicker_p'+tipo+new_id+'_03">'+
                                                     '<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>'+
                                                 '</div><!-- input-group -->'+
                                             '</div><!-- form-group -->'+
@@ -732,6 +752,12 @@
                         }, 300);
                     }
              
-       </script>>
+       </script>
+       <style>
+            .panel-addEvent{
+                z-index:6666 !important;
+            }
+            .datepicker{z-index:7777 !important;}
+        </style>
     </body>
 </html>

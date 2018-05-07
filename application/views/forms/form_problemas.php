@@ -27,7 +27,7 @@ if( isset( $form_data ) ){
                 <div class="form-group">
                     <label class="control-label">Fecha de Diagnóstico:</label>
                     <div class="input-group">
-                        <input type="text" name="pc1_01" class="form-control" placeholder="mm/dd/yyyy" data-date-format="dd-M-yyyy" id="datepicker_pc1_01">
+                        <input type="text" name="pc1_01" class="form-control datepiker" placeholder="mm/dd/yyyy" data-date-format="dd-M-yyyy" id="datepicker_pc1_01">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                     </div><!-- input-group --> 
                 </div><!-- form-group -->
@@ -42,7 +42,7 @@ if( isset( $form_data ) ){
                 <div class="form-group">
                     <label class="control-label">Fecha de Resolución:</label>
                     <div class="input-group">
-                        <input type="text" name="pc1_03" class="form-control" data-date-format="dd-M-yyyy" placeholder="mm/dd/yyyy" id="datepicker_pc1_03">
+                        <input type="text" name="pc1_03" class="form-control datepiker" data-date-format="dd-M-yyyy" placeholder="mm/dd/yyyy" id="datepicker_pc1_03">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                     </div><!-- input-group -->
                 </div><!-- form-group -->
@@ -59,7 +59,7 @@ if( isset( $form_data ) ){
                 <div class="form-group">
                     <label class="control-label">Fecha de Diagnóstico:</label>
                     <div class="input-group">
-                        <input type="text" name="pa1_01" class="form-control" data-date-format="dd-M-yyyy" placeholder="mm/dd/yyyy" id="datepicker_pa1_01">
+                        <input type="text" name="pa1_01" class="form-control datepiker" data-date-format="dd-M-yyyy" placeholder="mm/dd/yyyy" id="datepicker_pa1_01">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                     </div><!-- input-group -->
                 </div><!-- form-group -->
@@ -74,7 +74,7 @@ if( isset( $form_data ) ){
                 <div class="form-group">
                     <label class="control-label">Fecha de Resolución:</label>
                     <div class="input-group">
-                        <input type="text" name="pa1_03" class="form-control" data-date-format="dd-M-yyyy" placeholder="mm/dd/yyyy" id="datepicker_pa1_03">
+                        <input type="text" name="pa1_03" class="form-control datepiker" data-date-format="dd-M-yyyy" placeholder="mm/dd/yyyy" id="datepicker_pa1_03">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                     </div><!-- input-group -->
                 </div><!-- form-group -->
@@ -95,7 +95,7 @@ if( isset( $form_data ) ){
                         <div class="form-group">
                             <label class="control-label">Fecha de Diagnóstico:</label>
                             <div class="input-group">
-                                <input type="text" name="pc<?= $counter;?>_01" class="form-control" data-date-format="dd-M-yyyy" placeholder="mm/dd/yyyy" id="datepicker_pc<?= $counter;?>_01" value="<?= $row['fecha_diagnostico']?>">
+                                <input type="text" name="pc<?= $counter;?>_01" class="form-control datepiker" data-date-format="dd-M-yyyy" placeholder="mm/dd/yyyy" id="datepicker_pc<?= $counter;?>_01" value="<?= $row['fecha_diagnostico']?>">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                             </div><!-- input-group --> 
                         </div><!-- form-group -->
@@ -110,7 +110,7 @@ if( isset( $form_data ) ){
                         <div class="form-group">
                             <label class="control-label">Fecha de Resolución:</label>
                             <div class="input-group">
-                                <input type="text" name="pc<?= $counter;?>_03" data-date-format="dd-M-yyyy" class="form-control" placeholder="mm/dd/yyyy" id="datepicker_pc<?= $counter;?>_03" value="<?= $row['fecha_resolucion'];?>">
+                                <input type="text" name="pc<?= $counter;?>_03" data-date-format="dd-M-yyyy" class="form-control datepiker" placeholder="mm/dd/yyyy" id="datepicker_pc<?= $counter;?>_03" value="<?= $row['fecha_resolucion'];?>">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                             </div><!-- input-group -->
                         </div><!-- form-group -->
@@ -129,7 +129,7 @@ if( isset( $form_data ) ){
                         <div class="form-group">
                             <label class="control-label">Fecha de Diagnóstico:</label>
                             <div class="input-group">
-                                <input type="text" name="pa<?= $counter;?>_01" data-date-format="dd-M-yyyy" class="form-control" placeholder="mm/dd/yyyy" id="datepicker_pa<?= $counter;?>_01" value="<?= $row['fecha_diagnostico']?>">
+                                <input type="text" name="pa<?= $counter;?>_01" data-date-format="dd-M-yyyy" class="form-control datepiker" placeholder="mm/dd/yyyy" id="datepicker_pa<?= $counter;?>_01" value="<?= $row['fecha_diagnostico']?>">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                             </div><!-- input-group --> 
                         </div><!-- form-group -->
@@ -144,7 +144,7 @@ if( isset( $form_data ) ){
                         <div class="form-group">
                             <label class="control-label">Fecha de Resolución:</label>
                             <div class="input-group">
-                                <input type="text" name="pa<?= $counter;?>_03" data-date-format="dd-M-yyyy" class="form-control" placeholder="mm/dd/yyyy" id="datepicker_pa<?= $counter;?>_03" value="<?= $row['fecha_resolucion'];?>">
+                                <input type="text" name="pa<?= $counter;?>_03" data-date-format="dd-M-yyyy" class="form-control datepiker" placeholder="mm/dd/yyyy" id="datepicker_pa<?= $counter;?>_03" value="<?= $row['fecha_resolucion'];?>">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                             </div><!-- input-group -->
                         </div><!-- form-group -->

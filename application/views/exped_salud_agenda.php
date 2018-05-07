@@ -22,7 +22,7 @@
         </div><!-- row -->
     </div><!-- contentpanel -->            
 
-    <div class="modal fade bs-example-modal-tabs panel-newevents" tabindex="-1" role="dialog">
+    <div class="modal fade bs-example-modal-tabs panel-addEvent" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -32,24 +32,24 @@
             <div class="modal-body">                                
                 <div class="panel-body nopadding">
                     <form class="form-horizontal form-bordered">
-                        <div class="form-group">
-                            <label class="col-sm-4 control-label">Paciente</label>
-                            <div class="col-sm-8">
-                                <input id="add-event-select2" class="width100p dir-search" data-placeholder="¿A quien estás buscando?">
-                            </div>
+                        <div class="form-group col-sm-6">
+                            <label for="add-event-select2" >Paciente</label>                    
+                            <input id="add-event-select2" class="width100p dir-search" data-placeholder="¿A quien estás buscando?">
                         </div><!-- form-group -->                                
-                        <div class="form-group">
-                            <label class="control-label col-sm-4">Default Functionality</label>
-                        <div class="input-group col-sm-8">
-                            <input type="text" class="form-control" placeholder="mm/dd/yyyy" id="datepicker">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                        </div><!-- input-group -->                                    
-                        </div><!-- input-group -->          
-                        <div class="btn-list">                                          
-                            <button class="btn btn-primary btn-rounded" id="saveEvent" onclick="save();" data-dismiss="modal">Guardar</button>
-                        </div>                                                    
+                        <div class="form-group col-sm-6 pull-right">
+                            <label for="datepiker">Fecha</label>
+                            <input type="text" class="form-control datepiker" placeholder="mm/dd/yyyy" id="datepicker">
+                            <!--span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span-->
+                        </div><!-- input-group -->
+                        <div class="form-group col-sm-12 pull-left">
+                            <label for="">Asunto</label>
+                            <textarea class="form-control" id="subject" rows="5"></textarea>
+                        </div><!-- input-group -->                                  
                     </form>
                 </div>
+            </div>
+            <div class="modal-footer">                
+                <button class="btn btn-primary btn-rounded" id="saveEvent" onclick="save();" data-dismiss="modal">Guardar</button>
             </div>
           </div>
         </div>
