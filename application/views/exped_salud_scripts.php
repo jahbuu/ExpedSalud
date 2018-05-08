@@ -25,8 +25,10 @@
             <script>
                 //Ready functions
                 jQuery(document).ready(function() {                            
+                    
                     // Since the calendar is the deafult view; Initialize it
                     initCalendar();
+
                 });
                    
 
@@ -36,6 +38,8 @@
                 //Calendar functions
                 //Calendar initizalition
                 function initCalendar(){
+                    refetchAddForm();
+                    datepicker_init('#datepicker');
                     jQuery('#external-events div.external-event').each(function() {                                  
                         // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
                         // it doesn't need to have a start or end
@@ -85,10 +89,23 @@
                             console.log('Event: ' + calEvent.title);                                 
                         },
                         events: '<?= $path . "index.php/Ccalendar/getEvents";?>',
-                        eventClick: function(event, element) {
-                            event.title = "CLICKED!";
+                        eventClick: function(event, element) {                            
+                            $('#datepicker').val(event.start);
+                            //$("#datepicker").val($.datepicker.formatDate('dd-M-yyyy', new Date()));
+
+                            $('#eventID').val(event.id);
+
+                            $('#add-event').parent().removeClass('hidden');
+                            $('#add-event-select2').parent().addClass('hidden');
+
+                            $('#patient_id').val( event.id_patient );
+                            $('#patient_name_label_id').val( event.id_patient );
+                            $('#add-event').val( event.patient_name );
+                            $('#subject').val( event.title );
                             $('#calendar').fullCalendar('updateEvent', event);
                             $('.panel-addEvent').modal('show');
+
+
                         }
                     }); 
                     // Tags Input
@@ -105,12 +122,12 @@
                     jQuery('#timepicker2').timepicker({showMeridian: false});
                     jQuery('#timepicker3').timepicker({minuteStep: 15});
                     // Date Picker
-                    jQuery('#datepicker').datepicker();
-                    jQuery('#datepicker-inline').datepicker();
-                    jQuery('#datepicker-multiple').datepicker({
-                        numberOfMonths: 3,
-                        showButtonPanel: true
-                    });
+                    // jQuery('#datepicker').datepicker();
+                    // jQuery('#datepicker-inline').datepicker();
+                    // jQuery('#datepicker-multiple').datepicker({
+                    //     numberOfMonths: 3,
+                    //     showButtonPanel: true
+                    // });
                     // Input Masks
                     jQuery("#date").mask("99/99/9999");
                     jQuery("#phone").mask("(999) 999-9999");
@@ -172,24 +189,40 @@
                     initSelec2( 'add-event-select2', 'Master/getDirectory', data_function, result_function );                    
                                   
                 }
+                //Refectch the calendar events
                 function refetchCalendar(){
                     $('#calendar').fullCalendar( 'refetchEvents' );
                 }
-                function addCalendarEvent(){
-                    var source = {
-                        creation_date : "2018-05-05 15:56:46",
-                        end : null,
-                        id : "1",
-                        id_patient : "10",
-                        id_user : "1",
-                        start : "2018-0-07 00:00:00",
-                        title : "Title",
-                    };
-
-                        
-                    $('#calendar').fullCalendar( 'addEventSource', source );   
+                //Clean form inputs
+                function cleanAddEventForm(){
+                    $('.panel-addEvent').find('form input').val('');                    
+                    $('.panel-addEvent').find('form textarea').val('');
+                    $('#add-event-select2').select2('val', '');
+                    $('#add-event-select2').attr('name', 'id_patient');
+                    $('#patient_id').removeAttr('name');                    
                 }
-                
+                //
+                function addCalendarEvent(){
+                    validateForm('addEvent');
+                    var type = 'POST';
+                    var data = $("[name='form-addEvent']").serializeArray();
+                    var url = '<?= $path; ?>index.php/Ccalendar/addEvents';
+                    var async = 'async';
+                    var success = function(){
+                        refetchCalendar();
+                        cleanAddEventForm();
+                    }
+                    var error = null;
+                    ajaxRequest(type, url, async, data, success, error);
+                }
+                //        
+                function refetchAddForm(){
+                    $('#panel-addEvent').on('hidden.bs.modal', function (e) {
+                        $('#add-event').parent().addClass('hidden');
+                        $('#add-event-select2').parent().removeClass('hidden');
+                        cleanAddEventForm();
+                    });                    
+                }      
 
             </script>
             <script>
@@ -230,6 +263,17 @@
                     };
                     var dataType = 'json';
                     ajaxRequest( post, url, async, data, success, error, dataType );
+                }
+                //Validate forms
+                function validateForm(form_name){
+                    switch(form_name){
+                        case 'addForm':
+                            $('#add-event-select2').removeAttr('name');
+                            $('#patient_id').attr('name', 'id_patient');
+                            break;
+                        case 'default':
+                            break;
+                    }
                 }
             </script>
             <script>
@@ -368,7 +412,8 @@
                             data: data_function,
                             results: result_function,
                             cache:true
-                        },                    
+                        },                        
+                        allowClear: true
                     });
                 }
                 //AjaxRequest 
@@ -429,8 +474,11 @@
                     $( ".mainpanel" ).html(html);
                 }
                 function datepicker_init(id){
-
-                    jQuery(id).datepicker({format:'dd-M-yyyy'});
+                    
+                    $(id).datepicker(
+                        
+                        
+                    );
                 }
 
             </script>

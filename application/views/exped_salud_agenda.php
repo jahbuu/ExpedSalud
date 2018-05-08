@@ -22,7 +22,7 @@
         </div><!-- row -->
     </div><!-- contentpanel -->            
 
-    <div class="modal fade bs-example-modal-tabs panel-addEvent" tabindex="-1" role="dialog">
+    <div class="modal fade bs-example-modal-tabs panel-addEvent" id="panel-addEvent" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -31,25 +31,34 @@
             </div>
             <div class="modal-body">                                
                 <div class="panel-body nopadding">
-                    <form class="form-horizontal form-bordered">
+                    <form class="form-horizontal form-bordered form-addEvent" name="form-addEvent">
                         <div class="form-group col-sm-6">
-                            <label for="add-event-select2" >Paciente</label>                    
-                            <input id="add-event-select2" class="width100p dir-search" data-placeholder="¿A quien estás buscando?">
+                            <label for="add-event-select2">Paciente</label>                    
+                            <input id="add-event-select2" name="patient_id[]" class="width100p dir-search" data-placeholder="¿A quien estás buscando?">
                         </div><!-- form-group -->                                
+                        <div class="form-group col-sm-6 hidden">
+                            <label for="add-event-select2">Paciente</label>                    
+                            <input readonly id="add-event" type="input" class="width100p dir-search" data-placeholder="">
+                        </div><!-- form-group -->                        
                         <div class="form-group col-sm-6 pull-right">
                             <label for="datepiker">Fecha</label>
-                            <input type="text" class="form-control datepiker" placeholder="mm/dd/yyyy" id="datepicker">
+                            <input type="text" class="form-control" data-date-format="d-M-y" placeholder="d-M-y" id="datepicker" name="start"></input>
                             <!--span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span-->
                         </div><!-- input-group -->
                         <div class="form-group col-sm-12 pull-left">
                             <label for="">Asunto</label>
-                            <textarea class="form-control" id="subject" rows="5"></textarea>
+                            <textarea class="form-control" id="title" name="title" rows="5"></textarea>
                         </div><!-- input-group -->                                  
+                        <div class="form-group col-sm-12 pull-right hidden">                            
+                            <input type="text" class="form-control" id="eventID" name="event_id">
+                            <input id="patient_id" name="patient_id[]" type="input" class="width100p dir-search" data-placeholder="">
+                            <!--span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span-->
+                        </div><!-- input-group -->
                     </form>
                 </div>
             </div>
             <div class="modal-footer">                
-                <button class="btn btn-primary btn-rounded" id="saveEvent" onclick="save();" data-dismiss="modal">Guardar</button>
+                <button class="btn btn-primary btn-rounded" id="saveEvent" onclick="addCalendarEvent();" data-dismiss="modal">Guardar</button>
             </div>
           </div>
         </div>

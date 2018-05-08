@@ -1,24 +1,13 @@
 <?php
 
 
-function sqlInsert($table, $data, $query){
-	// $data array should include all non-default values
-	
+function sqlInsert($table, $data){
+	// $data array should include all non-default values	
 
-
-	$select = ' * ';
-	$form = $table;
-	$where  = '';
-	$orderby  = '';
-	$groupby = '';
-	$limit = '';
-
-	// $this->db->list_fields( $table );
-
-
-	// $this->db->insert($table);
-	echo "!!";die;
-
+	// Get instance of Model
+	$ci =& get_instance();
+	//Insert
+	$ci->db->insert($table, $data);	
 }
 
 function sqlSelect($table, $query){	
@@ -44,6 +33,12 @@ function sqlSelect($table, $query){
 		$where = ' ';
 	}
 
+	if( element('join', $query, 'noquery') != 'noquery'){
+		$join = element('join', $query);
+	}else{
+		$join = ' ';
+	}
+
 	if( element('orderby', $query, 'noorderby') != 'noorderby' ){
 		$orderby = element( 'orderby', $query);
 	}else{
@@ -62,26 +57,51 @@ function sqlSelect($table, $query){
 		$limit = ' ';
 	}
 
-	//Query construction
-	$query_statement = $select . ' ' . $from . ' ' . $where . ' ' . $orderby . ' ' . $groupby . ' ' . $limit;	
-	//Query excecution
-	$results = $ci->db->query( $query_statement );
-	//Get table columns namelist
-	$fields_list = $ci->db->list_fields($table);
-	//Fetch results into user_events
-	$user_events = array();
-	foreach ($results->result_array() as $row){
-		$event = array();
-		foreach ($fields_list as $field) {			
-			$event[$field] = $row[$field];
+	if( element('join', $query, 'nojoin') == 'nojoin'){
+	// Selects the columns of one table
+		//Query construction
+		$query_statement = $select . ' ' . $from . ' ' . $join .' ' . $where . ' ' . $orderby . ' ' . $groupby . ' ' . $limit;	
+		//Query excecution
+		$results = $ci->db->query( $query_statement );
+		//Get table columns namelist
+		$fields_list = $ci->db->list_fields($table);
+		//Fetch results into user_events
+		$user_events = array();
+		foreach ($results->result_array() as $row){
+			$event = array();
+			foreach ($fields_list as $field) {			
+				$event[$field] = $row[$field];
+			}
+			$user_events[] = $event;
+		}		
+	}else{		
+	// Selects the columns including join pg_parameter_status
+		//Query construction
+		$query_statement = $select . ' ' . $from . ' ' . $join .' ' . $where . ' ' . $orderby . ' ' . $groupby . ' ' . $limit;	
+		//Query excecution
+		$results = $ci->db->query( $query_statement );
+		//Get table columns namelist
+		$fields_list = $ci->db->list_fields($table);
+		//Fetch results into user_events
+		$user_events = array();
+		foreach ($results->result_array() as $row){
+			$event = array();
+			foreach ($fields_list as $field) {			
+				$event[$field] = $row[$field];
+			}
+			$event['patient_name'] = $row['patient_name'];
+			$user_events[] = $event;
+
 		}
-		$user_events[] = $event;
 	}
-	//return
 	return $user_events;
 }
 
-function sqlUpdate($table, $id, $data){
+function sqlUpdate($table, $data){
+	// Get instance of Model
+	$ci =& get_instance();
+	//Update
+	$ci->db->replace($table, $data);
 
 }
 

@@ -20,7 +20,7 @@ class Ccalendar extends CI_Controller {
 	}
 
 
-	function getEvent($event_id){
+	function getEvent(){
 		$event = $this->Mcalendar->getEvent($event_id);
 		return output_json($event);		
 	}
@@ -31,22 +31,22 @@ class Ccalendar extends CI_Controller {
 		echo $events;
 	}
 
-	function deleteEvent($event_id){
+	function deleteEvent(){
 		$this->Mcalendar->deleteEvent($event_id);
 
 		return $this->getEvents();
 	}
 
-	function updateEvent($event_id, $data){
+	function updateEvent(){
 		$this->Mcalendar->updateEvent($event_id, $data);
 
 		return $this->getEvents();
 	}
 
-	function addEvents($events, $data){
-		$this->Mcalendar->addEvents($data);
+	function addEvents(){		
+		$events = $this->input->post();
+		$this->Mcalendar->addEvents($events);
 
-		return $this->getEvents();	
 	}
 
 
