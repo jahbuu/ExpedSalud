@@ -32,23 +32,34 @@
             <div class="modal-body">                                
                 <div class="panel-body nopadding">
                     <form class="form-horizontal form-bordered form-addEvent" name="form-addEvent">
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-12">
                             <label for="add-event-select2">Paciente</label>                    
                             <input id="add-event-select2" name="patient_id[]" class="width100p dir-search" data-placeholder="¿A quien estás buscando?">
                         </div><!-- form-group -->                                
-                        <div class="form-group col-sm-6 hidden">
+                        <div class="form-group col-sm-12 hidden">
                             <label for="add-event-select2">Paciente</label>                    
                             <input readonly id="add-event" type="input" class="width100p dir-search" data-placeholder="">
-                        </div><!-- form-group -->                        
-                        <div class="form-group col-sm-6 pull-right">
-                            <label for="datepiker">Fecha</label>
-                            <input type="text" class="form-control" data-date-format="d-M-y" placeholder="d-M-y" id="datepicker" name="start"></input>
-                            <!--span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span-->
-                        </div><!-- input-group -->
-                        <div class="form-group col-sm-12 pull-left">
-                            <label for="">Asunto</label>
-                            <textarea class="form-control" id="title" name="title" rows="5"></textarea>
-                        </div><!-- input-group -->                                  
+                        </div><!-- form-group -->   
+                        <div class="col-sm-6">
+                            <div class="form-group  pull-right col-sm-12" >
+                                <label for="datepiker">Fecha</label>
+                                <input type="text" class="form-control" placeholder="" id="datepicker" name="start_date"></input>
+                                <!--span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span-->
+                            </div><!-- input-group -->                                             
+                            <div class="form-group  pull-right bootstrap-timepicker col-sm-12" >
+                                <label for="datepiker">Hora</label>
+                                <input type="text" class="form-control" placeholder="" id="timepicker" name="start_time"></input>
+                                <!--span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span-->
+                            </div><!-- input-group -->                        
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group  pull-left col-sm-12">
+                                <label for="">Asunto</label>
+                                <textarea class="form-control" id="title" name="title" rows="5"></textarea>
+                            </div><!-- input-group -->                                  
+                         </div>   
+                        
+                        
                         <div class="form-group col-sm-12 pull-right hidden">                            
                             <input type="text" class="form-control" id="eventID" name="event_id">
                             <input id="patient_id" name="patient_id[]" type="input" class="width100p dir-search" data-placeholder="">

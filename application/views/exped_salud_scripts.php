@@ -28,6 +28,7 @@
                     
                     // Since the calendar is the deafult view; Initialize it
                     initCalendar();
+                    $('#timepicker').timepicker();
 
                 });
                    
@@ -40,6 +41,7 @@
                 function initCalendar(){
                     refetchAddForm();
                     datepicker_init('#datepicker');
+                    timepicker_init('#timepicker');
                     jQuery('#external-events div.external-event').each(function() {                                  
                         // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
                         // it doesn't need to have a start or end
@@ -61,13 +63,13 @@
                             left: 'prev,next today',
                             center: 'title',
                             right: 'month,agendaWeek,agendaDay'
-                        },
+                        },                        
                         editable: false,
                         droppable: false, // this allows things to be dropped onto the calendar !!!
                         drop: function(date, allDay) { // this function is called when something is dropped                                  
                             // retrieve the dropped element's stored Event Object
                             var originalEventObject = jQuery(this).data('eventObject');
-                                              
+                            alert(originalEventObject.title);         
                             // we need to copy it, so that multiple events don't have a reference to the same object
                             var copiedEventObject = $.extend({}, originalEventObject);
                                               
@@ -84,14 +86,27 @@
                                 // if so, remove the element from the "Draggable Events" list
                                 jQuery(this).remove();
                             }
+
+
+
                         },
                         eventClick: function(calEvent, jsEvent, view) {
                             console.log('Event: ' + calEvent.title);                                 
                         },
                         events: '<?= $path . "index.php/Ccalendar/getEvents";?>',
-                        eventClick: function(event, element) {                            
-                            $('#datepicker').val(event.start);
-                            //$("#datepicker").val($.datepicker.formatDate('dd-M-yyyy', new Date()));
+    //                     events: [{ id:1,
+    //        start: "2018-05-06T10:00:00",
+    //        end:"2018-05-06T18:00:00",
+    //        title: 'test timed event',
+    //        allDay: false }, 
+    //     { id:2,
+    //       start: "2016-12-07",
+    //       title: 'All Day Event',
+    //       allDay: true }
+    // ],
+                        eventClick: function(event, element) {                                
+                            $('#datepicker').val(event.start_date);                            
+                            $('#timepicker').val(event.start_time);                            
 
                             $('#eventID').val(event.id);
 
@@ -101,26 +116,18 @@
                             $('#patient_id').val( event.id_patient );
                             $('#patient_name_label_id').val( event.id_patient );
                             $('#add-event').val( event.patient_name );
-                            $('#subject').val( event.title );
+                            $('#title').val( event.title );
                             $('#calendar').fullCalendar('updateEvent', event);
                             $('.panel-addEvent').modal('show');
 
 
                         }
                     }); 
-                    // Tags Input
-                    jQuery('#tags').tagsInput({width:'auto'});
-                    // Textarea Autogrow
-                    jQuery('#autoResizeTA').autogrow();
-                    // Spinner
-                    var spinner = jQuery('#spinner').spinner();
-                    spinner.spinner('value', 0);
-                    // Form Toggles
-                    jQuery('.toggle').toggles({on: true});
+                   
                     // Time Picker
-                    jQuery('#timepicker').timepicker({defaultTIme: false});
-                    jQuery('#timepicker2').timepicker({showMeridian: false});
-                    jQuery('#timepicker3').timepicker({minuteStep: 15});
+                    // jQuery('#timepicker').timepicker({defaultTIme: false});
+                    // jQuery('#timepicker2').timepicker({showMeridian: false});
+                    // jQuery('#timepicker3').timepicker({minuteStep: 15});
                     // Date Picker
                     // jQuery('#datepicker').datepicker();
                     // jQuery('#datepicker-inline').datepicker();
@@ -133,45 +140,11 @@
                     jQuery("#phone").mask("(999) 999-9999");
                     jQuery("#ssn").mask("999-99-9999");
                     // Select2
-                    jQuery("#select-basic, #select-multi").select2();
-                    jQuery('#select-search-hide').select2({
-                        minimumResultsForSearch: -1
-                    });
-                    function format(item) {
-                        return '<i class="fa ' + ((item.element[0].getAttribute('rel') === undefined)?"":item.element[0].getAttribute('rel') ) + ' mr10"></i>' + item.text;
-                    }
-                    // This will empty first option in select to enable placeholder
-                    jQuery('select option:first-child').text('');
-
-                    jQuery("#select-templating").select2({
-                        formatResult: format,
-                        formatSelection: format,
-                        escapeMarkup: function(m) { return m; }
-                    });
-                    // Color Picker
-                    if(jQuery('#colorpicker').length > 0) {
-                        jQuery('#colorSelector').ColorPicker({
-                            onShow: function (colpkr) {
-                                    jQuery(colpkr).fadeIn(500);
-                                    return false;
-                            },
-                            onHide: function (colpkr) {
-                                        jQuery(colpkr).fadeOut(500);
-                                        return false;
-                            },
-                            onChange: function (hsb, hex, rgb) {
-                            jQuery('#colorSelector span').css('backgroundColor', '#' + hex);
-                            jQuery('#colorpicker').val('#'+hex);
-                            }
-                        });
-                    }
-                    // Color Picker Flat Mode
-                    jQuery('#colorpickerholder').ColorPicker({
-                        flat: true,
-                        onChange: function (hsb, hex, rgb) {
-                            jQuery('#colorpicker3').val('#'+hex);
-                        }
-                    });     
+                    // jQuery("#select-basic, #select-multi").select2();
+                    // jQuery('#select-search-hide').select2({
+                    //     minimumResultsForSearch: -1
+                    // });
+                        
                     // Set select2 initialization parameters
                     var data_function = function(params){
                         // q is the raw parameter of the searched item
@@ -198,8 +171,8 @@
                     $('.panel-addEvent').find('form input').val('');                    
                     $('.panel-addEvent').find('form textarea').val('');
                     $('#add-event-select2').select2('val', '');
-                    $('#add-event-select2').attr('name', 'id_patient');
-                    $('#patient_id').removeAttr('name');                    
+                    
+                    
                 }
                 //
                 function addCalendarEvent(){
@@ -268,8 +241,7 @@
                 function validateForm(form_name){
                     switch(form_name){
                         case 'addForm':
-                            $('#add-event-select2').removeAttr('name');
-                            $('#patient_id').attr('name', 'id_patient');
+                            
                             break;
                         case 'default':
                             break;
@@ -473,11 +445,14 @@
 
                     $( ".mainpanel" ).html(html);
                 }
-                function datepicker_init(id){
-                    
-                    $(id).datepicker(
-                        
-                        
+                function datepicker_init(id){                    
+                    $(id).datepicker();
+                }
+                function timepicker_init(id){                    
+                    jQuery(id).timepicker(
+                        {defaultTIme: false},
+                        {template: 'modal'},
+                        {format: 'HH:mm'}
                     );
                 }
 
@@ -806,6 +781,10 @@
                 z-index:6666 !important;
             }
             .datepicker{z-index:7777 !important;}
+
+.bootstrap-timepicker-widget table td input {
+width: 50px;
+}
         </style>
     </body>
 </html>
