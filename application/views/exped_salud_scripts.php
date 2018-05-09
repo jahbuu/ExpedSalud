@@ -260,6 +260,14 @@
                     getFormLayout(form_value);
                     setTimeout(function(){                        
                         $(".panel-"+form_value).modal("hide");
+                        $(".panel-"+form_value+'-l').modal("hide");
+                    }, 200);
+                }
+                function getFormLayoutConfirm(form_value, form_id){
+                    getFormLayout(form_value, form_id);
+                    setTimeout(function(){                        
+                        $(".panel-"+form_value).modal("hide");
+                        $(".panel-"+form_value+'-l').modal("hide");
                     }, 200);
                 }
                 // Ajax request to load the formlayout
@@ -271,7 +279,7 @@
                     if (form_id == -1){
                         // #
                     }else if(form_id != 0){
-                        data['form_id'] = formid;
+                        data['form_id'] = form_id;
                         
                     }else{
                         data['form_id'] =  $("#"+form_value+"_value").val();
@@ -775,6 +783,13 @@
                         }, 300);
                     }
              
+                    function form_load_confirmation(id, form_value){                                       
+                        load_form(form_value, 2, id);
+                        var modal_reference = ".panel-"+form_value+"-l";
+                        setTimeout(function(){
+                            $(modal_reference).modal("hide");
+                        }, 300);
+                    }
        </script>
        <style>
             .panel-addEvent{

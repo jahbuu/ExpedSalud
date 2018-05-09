@@ -1,4 +1,4 @@
-<?php
+<?php    
     //Historia Clinica
     if( $pid_hstry['hc_m'] == 0 ){
         $hc_m = "No hay registro de Historia Clínica";
@@ -366,26 +366,7 @@
 
         <!-- Ver Formularios -->
         <!-- HC -->
-        <div class="modal fade bs-example-modal-panel panel-ne" tabindex="-1" role="dialog">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                  
-              <div class="panelt panel-default">
-                <div class="panel-heading">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h3 class="panel-title">Ver formulario</h3>
-                    <p>Desea cargar el formulario </p>
-                    
-                </div>
-                <div class="panel-body">
-                    <button class="btn btn-default btn-bordered" onclick="form_load_confirmation(1, 'hc');">Cancelar</button>
-                    <button class="btn btn-primary btn-bordered" onclick="form_load_confirmation(2, 'hc');">Si</button>
-                </div>
-            </div>
-
-              </div>
-            </div>
-        </div>
+        
 
         <!-- Ver Formularios -->
         <!-- HC -->
@@ -401,8 +382,8 @@
                     
                 </div>
                 <div class="panel-body">
-                    <button class="btn btn-default btn-bordered" onclick="form_load_confirmation(1, 'hc');">Cancelar</button>
-                    <button class="btn btn-primary btn-bordered" onclick="form_load_confirmation(2, 'hc');">Si</button>
+                    <button class="btn btn-default btn-bordered" onclick="">Cancelar</button>
+                    <button class="btn btn-primary btn-bordered" onclick="getFormLayoutConfirm('hc', $('#hc_value').val());">Si</button>
                 </div>
             </div>
 
@@ -423,8 +404,8 @@
                     
                 </div>
                 <div class="panel-body">
-                    <button class="btn btn-default btn-bordered" onclick="form_load_confirmation(1, 'ef');">Cancelar</button>
-                    <button class="btn btn-primary btn-bordered" onclick="form_load_confirmation(2, 'ef');">Si</button>
+                    <button class="btn btn-default btn-bordered" onclick="">Cancelar</button>
+                    <button class="btn btn-primary btn-bordered" onclick="getFormLayoutConfirm('ef', $('#ef_value').val());">Si</button>
                 </div>
             </div>
 
@@ -445,8 +426,8 @@
                     
                 </div>
                 <div class="panel-body">
-                    <button class="btn btn-default btn-bordered" onclick="form_load_confirmation(1, 'pca');">Cancelar</button>
-                    <button class="btn btn-primary btn-bordered" onclick="form_load_confirmation(2, 'pca');">Si</button>
+                    <button class="btn btn-default btn-bordered" onclick="">Cancelar</button>
+                    <button class="btn btn-primary btn-bordered" onclick="getFormLayoutConfirm('pca', $('#pca_value').val());"">Si</button>
                 </div>
             </div>
 
@@ -467,8 +448,8 @@
                     
                 </div>
                 <div class="panel-body">
-                    <button class="btn btn-default btn-bordered" onclick="form_load_confirmation(1, 'el');">Cancelar</button>
-                    <button class="btn btn-primary btn-bordered" onclick="form_load_confirmation(2, 'el');">Si</button>
+                    <button class="btn btn-default btn-bordered" onclick=";">Cancelar</button>
+                    <button class="btn btn-primary btn-bordered" onclick="getFormLayoutConfirm('el', $('#el_value').val());">Si</button>
                 </div>
             </div>
 
@@ -489,8 +470,8 @@
                     
                 </div>
                 <div class="panel-body">
-                    <button class="btn btn-default btn-bordered" onclick="form_load_confirmation(1, 'eg');">Cancelar</button>
-                    <button class="btn btn-primary btn-bordered" onclick="form_load_confirmation(2, 'eg');">Si</button>
+                    <button class="btn btn-default btn-bordered" onclick="">Cancelar</button>
+                    <button class="btn btn-primary btn-bordered" onclick="getFormLayoutConfirm('eg', $('#eg_value').val());">Si</button>
                 </div>
             </div>
 
@@ -511,10 +492,11 @@
                     
                 </div>
                 <div class="panel-body">
-                    <button class="btn btn-default btn-bordered" onclick="form_load_confirmation(1, 'rs');">Cancelar</button>
-                    <button class="btn btn-primary btn-bordered" onclick="form_load_confirmation(2, 'rs');" >Si</button>
+                    <button class="btn btn-default btn-bordered" onclick="">Cancelar</button>
+                    <button class="btn btn-primary btn-bordered" onclick="getFormLayoutConfirm('rs', $('#rs_value').val());" >Si</button>
                 </div>
             </div>
+
 
               </div>
             </div>

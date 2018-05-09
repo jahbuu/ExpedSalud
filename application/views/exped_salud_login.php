@@ -35,7 +35,7 @@
                         <img src="<?=$path ?>images/image001.png" alt="Chain Logo" >
                     </div>
                     <br />
-                    <h4 class="text-center mb5">Already a Member?</h4>
+                    <h4 class="text-center mb5">ExpedSalud</h4>
                     <p class="text-center">Sign in to your account</p>
                     
                     <div class="mb30"></div>
@@ -58,12 +58,7 @@
                         </div><!-- input-group -->
                         
                         <div class="clearfix">
-                            <div class="pull-left">
-                                <div class="ckbox ckbox-primary mt10">
-                                    <input type="checkbox" id="rememberMe" value="1">
-                                    <label for="rememberMe">Remember Me</label>
-                                </div>
-                            </div>
+                            
                             <div class="pull-right">                                
                                 <?= form_submit_button('', 'Subir curso', array( 'class' => 'btn btn-success' ), 'Sign In <i class="fa fa-angle-right ml5"></i>') ?>
                             </div>
@@ -74,7 +69,7 @@
                     
                 </div><!-- panel-body -->
                 <div class="panel-footer">
-                    <a href="<?= $path . "index.php/master/signin"; ?>" class="btn btn-primary btn-block">Not yet a Member? Create Account Now</a>
+                    
                 </div><!-- panel-footer -->
             </div><!-- panel -->
             

@@ -68,7 +68,8 @@
 
 ?>
 
-<div class="activity-list">
+
+                                        <div class="activity-list">
                                             
                                   
                                         <div class="media">
@@ -78,10 +79,17 @@
                                             </a>
                                             <div class="media-body">
                                                 
-                                                <a href="#"  class="mr5" data-toggle="modal" data-target=".panel-hc"><strong>Historia Clínica</strong></a><br /> 
+                                                <?php if( $this->session->userdata('userdata')['role'] == 'med' ){ ?>
+                                                <a href="#"  class="mr5" data-toggle="modal" data-target=".panel-hc">
+                                                <?php } ?>
+                                                <strong>Historia Clínica</strong>
+                                                <?php if( $this->session->userdata('userdata')['role'] == 'med' ){ ?>
+                                                </a>
+                                                <?php } ?>
+                                                <br/> 
                                                 <small class="text-muted">Última actualización: <?= $hc_m; ?></small>
                                                 <?php if( $hc_cnt > 1 ){ ?>
-                                                 <button class="btn btn-xs btn-primary btn-bordered" onclick="view_more('hc'); ">Ver más</button>
+                                                 <button class="btn btn-xs btn-primary btn-bordered" onclick="view_more('hc', '<?= $this->session->userdata('profile_data')['id'];?>')">Ver más</button>
                                                 <?php }?> 
                                                 <input type="hidden" id="hc_value" value="<?= $hc_id; ?>"></input>
                                             </div><!-- media-body -->
@@ -92,10 +100,17 @@
                                                 <img class="media-object img-circle" src="images/photos/user1.png" alt="" />
                                             </a>
                                             <div class="media-body">
-                                                <a href="#"  class="mr5" data-toggle="modal" data-target=".panel-ef"><strong>Examen Físico</strong></a><br />
+                                                <?php if( $this->session->userdata('userdata')['role'] == 'med' ){ ?>
+                                                <a href="#"  class="mr5" data-toggle="modal" data-target=".panel-ef">
+                                                <?php } ?>
+                                                <strong>Examen Físico</strong>
+                                                <?php if( $this->session->userdata('userdata')['role'] == 'med' ){ ?>
+                                                </a>
+                                                <?php } ?>
+                                                <br />
                                                 <small class="text-muted">Última actualización:<?= $ef_m; ?></small>
                                                 <?php if( $ef_cnt > 1 ){ ?>
-                                                <button class="btn btn-xs btn-primary btn-bordered" onclick="view_more('ef'); ">Ver más</button>
+                                                <button class="btn btn-xs btn-primary btn-bordered" onclick="view_more('ef', '<?= $this->session->userdata('profile_data')['id'];?>')">Ver más</button>
                                                 <?php } ?>
                                                 <input type="hidden" id="ef_value" value="<?= $ef_id; ?>"></input>
                                             </div><!-- media-body -->
@@ -106,10 +121,17 @@
                                                 <img class="media-object img-circle" src="images/photos/user1.png" alt="" />
                                             </a>
                                             <div class="media-body">
-                                                <a href="#"  class="mr5" data-toggle="modal" data-target=".panel-pca"><strong>Lista de problemas</strong></a><br />
+                                                <?php if( $this->session->userdata('userdata')['role'] == 'med' ){ ?>
+                                                <a href="#"  class="mr5" data-toggle="modal" data-target=".panel-pca">
+                                                <?php } ?>
+                                                <strong>Lista de problemas</strong>
+                                                <?php if( $this->session->userdata('userdata')['role'] == 'med' ){ ?>
+                                                </a>
+                                                <?php } ?>
+                                                <br />
                                                 <small class="text-muted">Última actualización: <?= $pca_m; ?></small>
                                                 <?php if( $pca_cnt > 1 ){ ?>
-                                                <button class="btn btn-xs btn-primary btn-bordered" onclick="view_more('pca'); ">Ver más</button>
+                                                <button class="btn btn-xs btn-primary btn-bordered" onclick="view_more('pca', '<?= $this->session->userdata('profile_data')['id'];?>') ">Ver más</button>
                                                 <?php } ?>
                                                 <input type="hidden" id="pca_value" value="<?= $pca_id; ?>"></input>
                                             </div><!-- media-body -->
@@ -120,10 +142,17 @@
                                                 <img class="media-object img-circle" src="images/photos/user1.png" alt="" />
                                             </a>
                                             <div class="media-body">
-                                                <a href="#"  class="mr5" data-toggle="modal" data-target=".panel-el"><strong>Examen de Laboratorio</strong></a><br />
+                                                <?php if( $this->session->userdata('userdata')['role'] == 'med' ){ ?>
+                                                <a href="#"  class="mr5" data-toggle="modal" data-target=".panel-el">
+                                                <?php } ?>
+                                                <strong>Examen de Laboratorio</strong>
+                                                <?php if( $this->session->userdata('userdata')['role'] == 'med' ){ ?>
+                                                </a>
+                                                <?php } ?>
+                                                <br />
                                                 <small class="text-muted">Última actualización: <?= $el_m; ?></small>
                                                 <?php if( $el_cnt > 1 ){ ?>
-                                                <button class="btn btn-xs btn-primary btn-bordered" onclick="view_more('el'); ">Ver más</button>
+                                                <button class="btn btn-xs btn-primary btn-bordered" onclick="view_more('el', '<?= $this->session->userdata('profile_data')['id'];?>') ">Ver más</button>
                                                 <?php } ?>
                                                 <input type="hidden" id="el_value" value="<?= $el_id; ?>"></input>
                                             </div><!-- media-body -->
@@ -134,10 +163,17 @@
                                                 <img class="media-object img-circle" src="images/photos/user1.png" alt="" />
                                             </a>
                                             <div class="media-body">
-                                                <a href="#"  class="mr5" data-toggle="modal" data-target=".panel-eg"><strong>Examen de Gabinete</strong></a><br />
+                                                <?php if( $this->session->userdata('userdata')['role'] == 'med' ){ ?>
+                                                <a href="#"  class="mr5" data-toggle="modal" data-target=".panel-eg">
+                                                <?php } ?>
+                                                <strong>Examen de Gabinete</strong>
+                                                <?php if( $this->session->userdata('userdata')['role'] == 'med' ){ ?>
+                                                </a>
+                                                <?php } ?>
+                                                <br />
                                                 <small class="text-muted">Última actualización: <?= $eg_m; ?></small>
                                                 <?php if( $eg_cnt > 1 ){ ?>
-                                                <button class="btn btn-xs btn-primary btn-bordered" onclick="view_more('eg'); ">Ver más</button>
+                                                <button class="btn btn-xs btn-primary btn-bordered" onclick="view_more('eg', '<?= $this->session->userdata('profile_data')['id'];?>')">Ver más</button>
                                                 <?php } ?>
                                                 <input type="hidden" id="eg_value" value="<?= $eg_id; ?>"></input>
                                             </div><!-- media-body -->
@@ -148,10 +184,17 @@
                                                 <img class="media-object img-circle" src="images/photos/user1.png" alt="" />
                                             </a>
                                             <div class="media-body">
-                                                <a href="#"  class="mr5" data-toggle="modal" data-target=".panel-rs"><strong>Referencias</strong></a><br />
+                                                <?php if( $this->session->userdata('userdata')['role'] == 'med' ){ ?>
+                                                <a href="#"  class="mr5" data-toggle="modal" data-target=".panel-rs">
+                                                <?php } ?>
+                                                <strong>Referencias</strong>
+                                                <?php if( $this->session->userdata('userdata')['role'] == 'med' ){ ?>
+                                                </a>
+                                                <?php } ?>
+                                                <br />
                                                 <small class="text-muted">Última actualización: <?= $rs_m; ?></small>
                                                 <?php if( $rs_cnt > 1 ){ ?>
-                                                <button class="btn btn-xs btn-primary btn-bordered" onclick="view_more('rs'); ">Ver más</button>
+                                                <button class="btn btn-xs btn-primary btn-bordered" onclick="view_more('rs', '<?= $this->session->userdata('profile_data')['id'];?>')">Ver más</button>
                                                 <?php } ?>
                                                 <input type="hidden" id="rs_value" value="<?= $rs_id; ?>"></input>
                                             </div><!-- media-body -->
@@ -159,3 +202,5 @@
 
 
                                         </div><!-- activity-list -->
+                                    
+                                    
