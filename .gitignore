@@ -36,3 +36,4 @@ ci_sessions/
 *.zip
 
 *.sublime-workspace
+*.php
