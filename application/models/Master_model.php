@@ -495,14 +495,13 @@ class Master_model extends CI_Model{
 			//Historia clinica			
 			case 1:							
 				if ($this->db->insert('form_historia_clinica', array(
-					'ahf'=>$data['hc_01'],
-					'pnp_tabaquismo'=>$data['hc_02'],
-					'pnp_etilismo'=>$data['hc_03'],
-					'app_medicos' => $data['hc_04'],
-					'app_traumaticos' => $data['hc_05'],
-					'app_quirurjicos' => $data['hc_06'],
-					'alergia_medicamentos' => $data['hc_07'],
-					'ago' => $data['hc_08'],
+					'ahf'=>$data['hc_06'],					
+					'app_medicos' => $data['hc_01'],
+					'apnp' => $data['hc_03'],
+					'app_traumaticos' => $data['hc_04'],
+					'app_quirurjicos' => $data['hc_05'],
+					'alergia_medicamentos' => $data['hc_02'],
+					'notas' => $data['hc_07'],
 					'id_persona' => $pid,
 					'id_medico' => $this->session->userdata('userdata')['id'],
 					'id_modificado' => $this->session->userdata('userdata')['id']

@@ -18,41 +18,41 @@ if( isset( $form_data ) ){
 
                                             <div class="panel-body">
                                                 <form name="hc_form">
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-                                                            <div class="form-group">
-                                                                <label class="control-label">AHF:</label>
-                                                                <textarea  name="hc_01" class="form-control"><?php if ( isset($form_data) ) echo $form_data['ahf']; ?></textarea>
-                                                            </div><!-- form-group -->
-                                                        </div><!-- col-sm-6 -->                                                              
-                                                    </div><!-- row -->
-                                              
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-                                                            <div class="form-group">
-                                                                <label class="control-label">PnP Tabaquismo:</label>
-                                                                <textarea  name="hc_02" class="form-control"><?php if ( isset($form_data) ) echo $form_data['pnp_tabaquismo']; ?></textarea>
-                                                            </div><!-- form-group -->
-                                                        </div><!-- col-sm-6 -->                                                              
-                                                    </div><!-- row -->
-
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-                                                            <div class="form-group">
-                                                                <label class="control-label">PnP Etilismo:</label>
-                                                                <textarea  name="hc_03" class="form-control"><?php if ( isset($form_data) ) echo $form_data['pnp_etilismo']; ?></textarea>
-                                                            </div><!-- form-group -->
-                                                        </div><!-- col-sm-6 -->                                                              
-                                                    </div><!-- row -->
-
-                                                    <div class="row">
+                                                   <div class="row">
                                                         <div class="col-sm-12">
                                                             <div class="form-group">
                                                                 <label class="control-label">APP Médicos:</label>
-                                                                <textarea  name="hc_04" class="form-control"><?php if ( isset($form_data) ) echo $form_data['app_medicos']; ?></textarea>
+                                                                <textarea  name="hc_01" class="form-control"><?php if ( isset($form_data) ) echo $form_data['app_medicos']; ?></textarea>
                                                             </div><!-- form-group -->
-                                                        </div><!-- col-sm-6 -->                                                              
-                                                    </div><!-- row -->    
+                                                        </div><!-- col-sm-6 -->                                       
+                                                    </div><!-- row -->  
+
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group">
+                                                                <label class="control-label">Alergia a medicamentos</label>
+                                                                <textarea  name="hc_02" class="form-control"><?php if ( isset($form_data) ) echo $form_data['alergia_medicamentos']; ?></textarea>
+                                                            </div><!-- form-group -->
+                                                        </div><!-- col-sm-6 -->
+                                                    </div><!-- row -->
+
+                                                     <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group">
+                                                                <label class="control-label">Apnp:</label>
+                                                                <textarea  name="hc_03" class="form-control"><?php if ( isset($form_data) ) echo $form_data['apnp']; ?></textarea>
+                                                            </div><!-- form-group -->
+                                                        </div><!-- col-sm-6 -->
+                                                    </div><!-- row -->
+
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group">
+                                                                <label class="control-label">APP Quirúrgicos:</label>
+                                                                <textarea  name="hc_04" class="form-control"><?php if ( isset($form_data) ) echo $form_data['app_quirurjicos']; ?></textarea>
+                                                            </div><!-- form-group -->
+                                                        </div><!-- col-sm-6 -->
+                                                    </div><!-- row -->
 
                                                     <div class="row">
                                                         <div class="col-sm-12">
@@ -60,32 +60,23 @@ if( isset( $form_data ) ){
                                                                 <label class="control-label">APP Traumáticos:</label>
                                                                 <textarea  name="hc_05" class="form-control"><?php if ( isset($form_data) ) echo $form_data['app_traumaticos']; ?></textarea>
                                                             </div><!-- form-group -->
-                                                        </div><!-- col-sm-6 -->                                                              
+                                                        </div><!-- col-sm-6 -->
                                                     </div><!-- row -->
 
                                                     <div class="row">
                                                         <div class="col-sm-12">
                                                             <div class="form-group">
-                                                                <label class="control-label">APP Quirúrjicos:</label>
-                                                                <textarea  name="hc_06" class="form-control"><?php if ( isset($form_data) ) echo $form_data['app_quirurjicos']; ?></textarea>
+                                                                <label class="control-label">AHF:</label>
+                                                                <textarea  name="hc_06" class="form-control"><?php if ( isset($form_data) ) echo $form_data['ahf']; ?></textarea>
                                                             </div><!-- form-group -->
                                                         </div><!-- col-sm-6 -->                                                              
                                                     </div><!-- row -->
-
+                                              
                                                     <div class="row">
                                                         <div class="col-sm-12">
                                                             <div class="form-group">
-                                                                <label class="control-label">Alergia a medicamentos</label>
-                                                                <textarea  name="hc_07" class="form-control"><?php if ( isset($form_data) ) echo $form_data['alergia_medicamentos']; ?></textarea>
-                                                            </div><!-- form-group -->
-                                                        </div><!-- col-sm-6 -->                                                              
-                                                    </div><!-- row -->
-
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-                                                            <div class="form-group">
-                                                                <label class="control-label">Algo</label>
-                                                                <textarea  name="hc_08" class="form-control"><?php if ( isset($form_data) ) echo $form_data['ago']; ?></textarea>
+                                                                <label class="control-label">Notas:</label>
+                                                                <textarea  name="hc_07" class="form-control"><?php if ( isset($form_data) ) echo $form_data['notas']; ?></textarea>
                                                             </div><!-- form-group -->
                                                         </div><!-- col-sm-6 -->                                                              
                                                     </div><!-- row -->  

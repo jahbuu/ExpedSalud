@@ -255,7 +255,7 @@
                                                 <?php if( $this->session->userdata('userdata')['role'] == 'med' ){ ?>
                                                 <a href="#"  class="mr5" data-toggle="modal" data-target=".panel-pca">
                                                 <?php } ?>
-                                                <strong>Lista de problemas</strong>
+                                                <strong>Medicamentos crónicos</strong>
                                                 <?php if( $this->session->userdata('userdata')['role'] == 'med' ){ ?>
                                                 </a>
                                                 <?php } ?>
